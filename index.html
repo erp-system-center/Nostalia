@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>نظام إدارة الكيترينج المتكامل</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1f4e79">
+<meta name="color-scheme" content="light dark">
+<script>try{var __g=localStorage.getItem('gh_theme');if(__g&&__g.charAt(0)==='{'){localStorage.setItem('gh_brand',__g);localStorage.removeItem('gh_theme')}var __md=localStorage.getItem('gh_theme');if(__md==='light'||__md==='dark')document.documentElement.setAttribute('data-theme',__md)}catch(e){}</script>
+<script>try{var __t=JSON.parse(localStorage.getItem('gh_brand')||'null'),__x=/^#[0-9a-fA-F]{6}$/,__d=document.documentElement;if(__t&&__x.test(__t.p)){__d.style.setProperty('--p',__t.p);if(__x.test(__t.a))__d.style.setProperty('--a',__t.a);var __m=document.querySelector('meta[name=theme-color]');if(__m)__m.content=__t.p}else{__d.classList.add('thw');setTimeout(function(){__d.classList.remove('thw')},4000)}}catch(e){}</script>
+<script>try{var __i=localStorage.getItem('gh_icon');if(__i){document.querySelectorAll('link[rel~=icon]').forEach(function(l){l.remove()});var __l=document.createElement('link');__l.rel='icon';__l.href=__i;document.head.appendChild(__l)}}catch(e){}</script>
+<meta name="apple-mobile-web-app-title" content="الكيترينج">
+<meta name="application-name" content="الكيترينج">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--p:#1f4e79;--a:#d9a441;--ok:#1e7a46;--bg:color-mix(in srgb,var(--p) 4%,#f4f4f4);--c:#fff;--t:#1f2328;--l:color-mix(in srgb,var(--p) 12%,#dcdcdc);--m:#6b7280;--s:color-mix(in srgb,var(--p) 7%,#fff);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:color-mix(in srgb,var(--p) 8%,#121212);--c:color-mix(in srgb,var(--p) 7%,#1d1d1d);--t:#ececec;--l:color-mix(in srgb,var(--p) 18%,#2e2e2e);--m:#a3a8ad;--s:color-mix(in srgb,var(--p) 12%,#242424)}}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+:root[data-theme=dark]{--bg:color-mix(in srgb,var(--p) 8%,#121212);--c:color-mix(in srgb,var(--p) 7%,#1d1d1d);--t:#ececec;--l:color-mix(in srgb,var(--p) 18%,#2e2e2e);--m:#a3a8ad;--s:color-mix(in srgb,var(--p) 12%,#242424)}
+:root{scrollbar-width:thin;scrollbar-color:var(--p) var(--s)}
+*{scrollbar-width:thin;scrollbar-color:var(--p) var(--s)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--s);border-radius:10px}
+::-webkit-scrollbar-thumb{background:var(--p);border-radius:10px;border:2px solid var(--s)}
+::-webkit-scrollbar-thumb:hover{background:var(--a)}
+::-webkit-scrollbar-corner{background:var(--s)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}html.thw body{visibility:hidden}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--t);font:14px/1.6 Cairo,'Segoe UI',Tahoma,sans-serif}
+header{background:var(--p);color:#fff;border-bottom:4px solid var(--a);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+header[hidden]{display:none}
+#hb{display:flex;align-items:center;gap:10px;padding:8px 16px;flex-wrap:wrap}
+#hb img{height:40px;border-radius:0;background:transparent}#hb b{font-size:17px;font-weight:800}
+#hb .u{font-size:12px;opacity:.9}
+#nav{display:flex;gap:4px;overflow-x:auto;padding:0 12px}
+#nav button{background:none;border:0;color:#fff;opacity:.8;padding:8px 14px;font:inherit;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap}
+#nav button.on{opacity:1;border-color:var(--a)}
+main{width:100%;max-width:none;margin:0;padding:16px clamp(12px,2vw,32px)}
+#hb,#nav{padding-inline:clamp(12px,2vw,32px)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.card{background:var(--c);border:1px solid var(--l);border-radius:12px;padding:12px 14px;border-inline-start:5px solid var(--a)}
+.card small{color:var(--m)}.card h2{margin:2px 0 0;font-size:22px;color:var(--p)}
+.box{background:var(--c);border:1px solid var(--l);border-radius:12px;padding:14px;margin-bottom:16px;overflow-x:auto}
+.box h3{margin:0 0 10px;color:var(--p)}
+.tb{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}.tb h2{margin:0;flex:1;color:var(--p)}
+table{width:100%;border-collapse:collapse}
+th{background:var(--p);color:#fff;padding:8px;font-size:13px;text-align:right}
+td{padding:7px 8px;border-bottom:1px solid var(--l);font-size:13px}
+tbody tr:nth-child(even){background:var(--s)}
+.b{border:0;border-radius:8px;padding:6px 12px;font:inherit;font-weight:600;cursor:pointer;background:var(--p);color:#fff}
+.b:disabled{opacity:.6;cursor:wait}
+.b.g{background:var(--a);color:#222}.b.o{background:none;color:var(--p);border:1px solid var(--p)}.b.r{background:#b3261e;color:#fff}
+.b.h{background:rgba(255,255,255,.18);color:#fff}.bn{background:#c0392b;color:#fff;border-radius:99px;padding:0 6px;font-size:11px}.att .al{margin:4px 0}.att .ai{display:flex;gap:8px;align-items:center;padding:3px 0;border-bottom:1px dashed var(--l)}.bar{background:#eee;border-radius:6px;height:12px;min-width:120px;overflow:hidden}.bar i{display:block;height:100%}
+.b.s{padding:1px 9px;font-size:12px;margin:1px}
+input,select,textarea{font:inherit;color:var(--t);background:var(--c);border:1px solid var(--l);border-radius:8px;padding:6px 8px;width:100%}
+input[readonly]{opacity:.7}
+input[type=color]{padding:0;height:34px}
+.st{padding:1px 10px;border-radius:99px;font-size:12px;font-weight:700;background:var(--s);color:var(--p);border:1px solid var(--p);white-space:nowrap}
+.bar{height:10px;background:var(--a);border-radius:5px;min-width:3px}
+.mu{color:var(--m)}
+dialog{border:0;border-radius:14px;width:min(780px,96vw);padding:0;background:var(--c);color:var(--t);max-height:92vh}
+dialog[open]{display:flex;flex-direction:column}
+dialog#m{width:min(1500px,97vw);min-height:70vh;max-height:95vh}
+dialog#m .db{flex:1;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));align-content:start;gap:12px 16px}
+@media(max-width:700px){dialog#m{width:100vw;max-height:100vh;min-height:100vh;border-radius:0}}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.dh{background:var(--p);color:#fff;padding:10px 16px;font-weight:800;border-bottom:3px solid var(--a)}
+.db{padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;overflow:auto}
+.db label,.lg label{display:block;font-size:12px;color:var(--m);font-weight:600}
+.full{grid-column:1/-1}
+.df{padding:10px 16px;display:flex;gap:8px;border-top:1px solid var(--l)}
+.tbm{border:1px solid var(--l);border-radius:8px;padding:6px 10px;margin-bottom:6px}.tbm summary{cursor:pointer;font-weight:700;color:var(--p)}.pm{border-collapse:collapse;width:100%;font-size:13px}.pm th,.pm td{border:1px solid var(--l);padding:4px 8px;text-align:center}.pm td:first-child{text-align:right}
+/* خانات الاختيار والاختيار الفردي: تصميم موحّد بألوان النظام (يتبع الوضع الفاتح/الداكن عبر المتغيرات) */
+input[type=checkbox],input[type=radio]{-webkit-appearance:none;appearance:none;display:inline-grid;place-content:center;width:18px!important;height:18px!important;min-width:18px;padding:0;margin:0;flex:none;vertical-align:middle;cursor:pointer;background:var(--c);border:1.5px solid var(--p);border-radius:5px;transition:background .15s,box-shadow .15s,border-color .15s}
+input[type=radio]{border-radius:50%}
+input[type=checkbox]::after{content:"";width:10px;height:10px;background:#fff;transform:scale(0);transition:transform .12s;clip-path:polygon(14% 44%,0 62%,40% 100%,100% 18%,84% 0,40% 62%)}
+input[type=radio]::after{content:"";width:8px;height:8px;border-radius:50%;background:#fff;transform:scale(0);transition:transform .12s}
+input[type=checkbox]:checked,input[type=radio]:checked,input[type=checkbox]:indeterminate{background:var(--p);border-color:var(--p)}
+input[type=checkbox]:checked::after,input[type=radio]:checked::after{transform:scale(1)}
+input[type=checkbox]:indeterminate::after{transform:scale(1);clip-path:none;width:9px;height:2px;border-radius:1px}
+input[type=checkbox]:hover:not(:disabled),input[type=radio]:hover:not(:disabled){box-shadow:0 0 0 3px color-mix(in srgb,var(--p) 18%,transparent)}
+input[type=checkbox]:focus-visible,input[type=radio]:focus-visible{outline:2px solid var(--a);outline-offset:2px}
+input[type=checkbox]:disabled,input[type=radio]:disabled{opacity:.45;cursor:not-allowed}
+.pm td:first-child{white-space:nowrap;min-width:150px;color:var(--t);font-weight:600}
+.pm td:first-child label,.pm th label{display:inline-flex;gap:6px;align-items:center;color:var(--t);font-size:13px;font-weight:600;margin:0}
+.pm th{white-space:nowrap;color:var(--t);font-size:12px}
+.ss{position:relative;display:inline-block;max-width:100%}.ss>input{width:100%;box-sizing:border-box;padding-inline-end:26px;background:var(--c) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E") no-repeat left 8px center;cursor:pointer}
+.ssl{position:fixed;z-index:200;background:var(--c);color:var(--t);border:1px solid var(--p);border-radius:8px;box-shadow:0 8px 24px #0003;max-height:260px;overflow:auto;padding:4px;min-width:200px}
+.ssl div{padding:6px 10px;border-radius:6px;cursor:pointer;white-space:normal}.ssl div.on,.ssl div:hover{background:var(--p);color:#fff}.ssl div.no{color:var(--m);cursor:default}.ssl div.no:hover{background:none;color:var(--m)}
+.lg{max-width:380px;margin:8vh auto}.lg img{height:70px;display:block;margin:0 auto 8px}.lg h2{text-align:center;margin:0;color:var(--p)}.lg p{text-align:center;margin:4px 0 14px}.pwf{position:relative}.pwf input{padding-right:42px;padding-left:10px;width:100%}
+.pwe{position:absolute;right:4px;top:3px;width:34px;height:34px;display:grid;place-items:center;background:transparent;border:0;border-radius:8px;color:var(--p);cursor:pointer;padding:0}
+.pwe:hover{background:var(--s)}.pwe:focus-visible{outline:2px solid var(--a);outline-offset:1px}.pwe svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.pwe .off{display:none}.pwe.on .off{display:block}.pwe.on .eye{display:none}
+.lg input{margin-bottom:8px}
+#busy{position:fixed;top:0;left:0;right:0;height:3px;background:var(--a);z-index:50;animation:bz 1s linear infinite;transform-origin:right}
+#busy[hidden]{display:none}
+/* شاشة الانتظار: تظهر فقط لو طال التنفيذ، وتحجب الباقي بضبابية لحين انتهاء الأمر */
+dialog#ldr{display:none;border:0;background:transparent;padding:0;margin:0;width:100vw;height:100vh;max-width:none;max-height:none;overflow:hidden;outline:none;place-items:center}
+dialog#ldr[open]{display:grid}
+#ldr::backdrop{background:rgba(0,0,0,.28);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:ldf .2s ease}
+.ldc{background:var(--c);color:var(--t);border:1px solid var(--l);border-top:4px solid var(--a);border-radius:18px;padding:26px 38px 22px;box-shadow:0 20px 60px rgba(0,0,0,.28);display:flex;flex-direction:column;align-items:center;gap:14px;min-width:220px;max-width:min(86vw,340px);text-align:center;animation:ldp .22s ease}
+.lds{position:relative;width:58px;height:58px}
+.lds i{position:absolute;inset:0;border-radius:50%;border:5px solid var(--s)}
+.lds b{position:absolute;inset:0;border-radius:50%;border:5px solid transparent;border-top-color:var(--p);border-right-color:var(--a);animation:ldr .85s cubic-bezier(.5,.1,.5,.9) infinite}
+.ldt{font-weight:700;color:var(--p)}
+.ldm{font-size:12px;color:var(--m);min-height:18px}
+.ldb{width:100%;min-width:230px;height:10px;border-radius:99px;background:var(--s);overflow:hidden}
+.ldb span{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--p),var(--a));transition:width .3s ease}
+.ldb.ind span{width:38%;animation:ldi 1.2s ease-in-out infinite alternate}
+.ldn{font-weight:700;font-size:15px;color:var(--t);font-variant-numeric:tabular-nums}
+.lde{font-size:12px;color:var(--m);font-variant-numeric:tabular-nums}
+@keyframes ldi{from{margin-right:0}to{margin-right:62%}}
+@keyframes ldr{to{transform:rotate(360deg)}}
+@keyframes ldf{from{opacity:0}to{opacity:1}}
+@keyframes ldp{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.lds b{animation-duration:2s}.ldc,#ldr::backdrop{animation:none}}
+@keyframes bz{0%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+#toast{position:fixed;inset:auto auto 18px 50%;margin:0;border:0;overflow:visible;transform:translateX(-50%);background:var(--p);color:#fff;padding:8px 18px;border-radius:99px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:60;max-width:92vw;text-align:center}
+#toast.on{opacity:1}#toast.er{background:#b3261e}
+#ps{display:none}
+@media(max-width:640px){.db{grid-template-columns:1fr}}
+@media print{@page{size:A4;margin:8mm}body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}body>*:not(#ps){display:none!important}#ps{display:block}}
+#ps{background:#fff;color:#222;font-size:12px}
+#ps .h{display:flex;align-items:center;gap:14px;padding:10px 6px;border-bottom:3px solid var(--p)}
+#ps .h img{width:90px;height:90px;object-fit:contain}#ps .h div:nth-child(2){flex:1}
+#ps h1{margin:0;color:var(--p);font-size:22px}
+#ps .t{background:var(--p);color:#fff;font-weight:800;font-size:18px;padding:6px 20px;border-radius:8px;border-bottom:4px solid var(--a)}
+#ps .g{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+#ps .g div{border:1px solid #d9d9d9;border-radius:8px;overflow:hidden}
+#ps h4{margin:0;background:var(--p);color:#fff;padding:3px 10px;border-inline-start:5px solid var(--a)}
+#ps p{margin:0;padding:2px 10px;border-top:1px solid #d9d9d9}
+#ps td{border:1px solid #d9d9d9;color:#222;text-align:center}#ps tbody tr:nth-child(even){background:#f5f5f5}
+#ps .tt{margin:10px 0 10px auto;width:240px}#ps .tt p{display:flex;justify-content:space-between}
+#ps .tt p:last-child{background:var(--p);color:#fff;font-weight:800}
+#ps .sg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+#ps .sg div{border:1px solid #d9d9d9;border-radius:8px;height:90px;text-align:center;font-weight:700;color:var(--p);padding-top:6px}
+#ps .ft{margin-top:12px;background:var(--p);color:#fff;text-align:center;padding:6px;border-top:4px solid var(--a)}
+#mods{display:flex;gap:6px;padding:2px 16px 8px;flex-wrap:wrap}
+#mods button{background:rgba(255,255,255,.16);border:0;color:#fff;border-radius:99px;padding:3px 16px;font:inherit;font-weight:700;cursor:pointer}
+#mods button.on{background:#fff;color:var(--p)}
+.warn{color:#b3261e;font-weight:700}.good{color:var(--ok);font-weight:700}
+.db label.chk,label.chk{display:inline-flex;gap:6px;align-items:center;margin:2px 10px 2px 0;font-size:13px;color:var(--t);font-weight:400}
+.chk input{width:auto}
+.sub{color:var(--m);font-size:12px}
+.sel-sm{width:auto;min-width:150px}
+.av{font-size:12px;white-space:nowrap}
+.tot td{font-weight:800;background:var(--s)}
+
+/* ===== نوافذ المستندات: خانات بحجمها المتعارف ومتجاورة، وجداول البنود بأعمدة منظمة ===== */
+dialog#m .db{grid-template-columns:repeat(auto-fill,minmax(min(100%,190px),1fr));gap:10px 14px}
+dialog#m .db>.full{grid-column:1/-1}
+dialog#m table[data-lg]{table-layout:fixed;width:100%}
+dialog#m table[data-lg] td,dialog#m table[data-lg] th{padding:6px 5px;vertical-align:top}
+dialog#m table[data-lg] td>input:not([type=checkbox]):not([type=radio]),dialog#m table[data-lg] td>select,dialog#m table[data-lg] td>textarea,dialog#m table[data-lg] td .ss{width:100%!important;min-width:0!important;max-width:100%;box-sizing:border-box;display:block}
+dialog#m table[data-lg] td>input[type=number]{text-align:center}
+dialog#m table[data-lg] td.lgs{font-variant-numeric:tabular-nums;text-align:center;white-space:nowrap;padding-top:12px}
+dialog#m table[data-lg] td .sub{margin-top:2px;line-height:1.3}
+dialog#m table[data-lg] td>button{margin-top:3px}
+dialog#m table#jl td>input:not([type=checkbox]):not([type=radio]),dialog#m table#jl td>select,dialog#m table#jl td .ss{width:100%!important;min-width:0!important;box-sizing:border-box;display:block}
+dialog#m table#jl td{vertical-align:top;padding:6px 5px}
+dialog#m .db .db{flex:none;min-height:0;padding:0;overflow:visible}
+</style>
+<script src="config.js?v=20261107a"></script>
+</head>
+<body>
+<div id="busy" hidden></div>
+<dialog id="ldr" aria-live="polite" aria-label="جارٍ التنفيذ"><div class="ldc" role="status"><div class="lds"><i></i><b></b></div><div class="ldt" id="ldt">جارٍ التنفيذ…</div><div class="ldb" id="ldb" hidden><span id="ldbar"></span></div><div class="ldn" id="ldn" hidden></div><div class="lde" id="lde" hidden></div><div class="ldm" id="ldm"></div></div></dialog>
+<header hidden><div id="hb"></div><div id="mods"></div><nav id="nav"></nav></header>
+<main id="v"></main>
+<div id="ps"></div>
+<div id="toast" popover="manual"></div>
+<datalist id="pjl"></datalist>
+<dialog id="m"><div class="dh" id="mt"></div><div class="db" id="mb"></div><div class="df"><button class="b" id="ms"></button><button class="b o" id="mc" onclick="dlg.close()">إغلاق</button></div></dialog>
+<script>
+/* =====================================================================
+   نواة الواجهة: الاتصال، الدخول، الصلاحيات، تبديل المديولات، المستخدمون، الإعدادات
+   المديولات في ملفات منفصلة: mod-procurement.js (المشتريات) و mod-inventory.js (المخازن)
+   كل مديول يسجّل نفسه في MODS ويضيف شاشاته إلى V وإجراءاته إلى A
+   ===================================================================== */
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const f=n=>(+n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const q3=n=>(+n||0).toLocaleString('en-US',{maximumFractionDigits:3});
+const today=()=>new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+const r2=n=>Math.round((+n||0)*100+(n<0?-1e-9:1e-9))/100;
+
+const CFG=window.CFG||{};
+/* جلسة كل نافذة مستقلة: الخروج في نافذة/مستخدم لا يُخرج غيره (sessionStorage للنافذة + localStorage لآخر جلسة تُستعاد عند فتح نافذة جديدة) */
+function tokInit(){try{let t=sessionStorage.getItem('gh_tok');if(!t){t=localStorage.getItem('gh_tok')||'';if(t)sessionStorage.setItem('gh_tok',t)}return t||''}catch(e){return ''}}
+function tokSet(t){try{sessionStorage.setItem('gh_tok',t)}catch(e){}try{localStorage.setItem('gh_tok',t)}catch(e){}}
+function tokClear(old){try{sessionStorage.removeItem('gh_tok')}catch(e){}try{if(!old||localStorage.getItem('gh_tok')===old)localStorage.removeItem('gh_tok')}catch(e){}}
+let API_URL=(CFG.API||localStorage.getItem('gh_api')||'').trim(),tok=tokInit();
+const ROLES={none:'بدون وصول',requester:'طالب شراء',approver:'معتمد',procurement:'مشتريات',finance:'مالية',admin:'مدير النظام'};
+const AROLES={none:'بدون وصول',accountant:'محاسب',manager:'مدير حسابات',viewer:'مراجع (اطلاع فقط)',admin:'مدير النظام'};
+const HROLES={none:'بدون وصول',officer:'مسؤول موارد بشرية',manager:'مدير موارد بشرية',viewer:'مراجع (اطلاع فقط)',admin:'مدير النظام'};
+const MROLES={none:'بدون وصول',operator:'مشغّل / مسؤول إنتاج',manager:'مدير التصنيع',viewer:'مراجع (اطلاع فقط)',admin:'مدير النظام'};
+const XROLES={none:'بدون وصول',officer:'مسؤول مصروفات (تسجيل وتعديل)',manager:'مدير مصروفات (اعتماد وصرف وإلغاء وتصنيفات)',viewer:'مراجع (اطلاع فقط)',admin:'مدير النظام'};
+const SROLES={none:'بدون وصول',officer:'مسؤول مبيعات (عملاء وفواتير وتحصيل)',manager:'مدير المبيعات (إلغاء وعكس)',viewer:'مراجع (اطلاع فقط)',admin:'مدير النظام'};
+const IMROLES={none:'بدون وصول',importer:'مستورد بيانات (حسب صلاحياته في المديولات)',admin:'مدير النظام'};
+const IROLES={none:'بدون وصول',requester:'طالب صرف',storekeeper:'أمين مخزن',manager:'مدير مخازن',viewer:'مراجع (اطلاع فقط)',admin:'مدير النظام'};
+const __th=(()=>{try{const t=JSON.parse(localStorage.getItem('gh_brand')||'null');if(!t||!/^#[0-9a-fA-F]{6}$/.test(t.p))return{};const o={p:t.p};if(/^#[0-9a-fA-F]{6}$/.test(t.a))o.a=t.a;if(t.org)o.org=t.org;if(t.tag)o.tag=t.tag;if(typeof t.logo==='string'&&t.logo.length<60000)o.logo=t.logo;return o}catch(e){return{}}})();
+let D={user:null,settings:{org:'شركة الكيترينج',tag:'',vat:14,p:'#1f4e79',a:'#d9a441',logo:'',invLink:true,tol:0,...__th},pr:[],po:[],sup:[],users:[],log:[],notifs:[],unread:0,extra:{budCtl:'off',notifMail:false},bud:{list:[]},projects:[],projUse:{},projLegacy:[],profiles:[],depts:[],deptUse:{},deptLegacy:[],catalog:[],avail:{},inv:null,acc:{linked:false,role:'none',accounts:[],projects:[],projNames:[],je:[],pays:[],ap:[],payAccts:[],bal:{},sum:null}};
+let mod='proc',view='',H,force=false,A={},V={};
+const MODS={},LASTV={},NAVX={acc:[],proc:[],inv:[],adm:[],hr:[],mfg:[],sal:[],exp:[],imp:[]};
+const tl=k=>(D.user&&D.user.role!=='admin'&&D.user.tabs&&D.user.tabs[k])||'';
+var ssOpen=null;
+const PJ=()=>D.projects||[];
+const pjf=v=>{v=String(v||'').trim().toLowerCase();return v?PJ().find(p=>p.code.toLowerCase()===v||p.name.trim().toLowerCase()===v):null};
+const pjl=v=>{if(!v)return '';const p=pjf(v);return p?p.code+' · '+p.name:v};
+const RO_OK=['vct','ctRe','bell','nt','ntall','attGet','attRef','go','mod','out','pw','ref','xl','card','vd','vpo','vpr','vje','vje2','pd','pdx','pp','ppx','pje','pjex','glRun','glPr','tbRun','tbPr','repRun','repPr','repT','rec','chk','vdn','qdb','dst','dstp','dstx','rcp','rcpx','drRun','drPr','dgo','bkSt','bkStRun','bkStX','bkStP','bkKind','bkRe'];
+const roStrip=r=>$$(r+' [data-a]').forEach(b=>{if(!RO_OK.includes(b.dataset.a))b.remove()});
+const DP=()=>D.depts||[];
+const dpf=v=>{v=String(v||'').trim().toLowerCase();return v?DP().find(p=>p.code.toLowerCase()===v||p.name.trim().toLowerCase()===v):null};
+const dpl=v=>{if(!v)return '';const p=dpf(v);return p?p.name:v};
+const dsl=(l,v,c='',nm='dept',nodef)=>{
+  const cur0=(dpf(v)||{}).code||(v||'');
+  if(!DP().length)return `<div class="${c}"><label>${l}</label><input name="${nm}" type="text" value="${esc(v||'')}"><small class="mu">لم يُعرَّف دليل إدارات بعد (الإدارة ← الإدارات)</small></div>`;
+  const p=dpf(v),cur=p?p.code:(v||(nodef?'':(D.user&&D.user.dept)||''));
+  return `<div class="${c}"><label>${l}</label><select name="${nm}"><option value="">— اختر الإدارة —</option>${DP().filter(x=>x.active||x.code===cur0).map(x=>`<option value="${esc(x.code)}"${x.code===cur?' selected':''}>${esc(x.code+' · '+x.name)}</option>`).join('')}${v&&!p?`<option value="${esc(v)}" selected>${esc(v)} (غير مُكوَّدة)</option>`:''}</select></div>`};
+const psl=(l,v,c='',none='— بدون فرع —')=>{
+  if(!PJ().length)return `<div class="${c}"><label>${l}</label><input name="proj" type="text" value="${esc(v||'')}"><small class="mu">لم يُعرَّف دليل فروع بعد (الإدارة ← الفروع)</small></div>`;
+  const p=pjf(v),cur=p?p.code:(v||'');
+  return `<div class="${c}"><label>${l}</label><select name="proj"><option value="">${none}</option>${PJ().filter(x=>x.active||x.code===cur).map(x=>`<option value="${esc(x.code)}"${x.code===cur?' selected':''}>${esc(x.code+' · '+x.name)}</option>`).join('')}${v&&!p?`<option value="${esc(v)}" selected>${esc(v)} (غير مُكوَّد)</option>`:''}</select></div>`};
+const dlg=$('#m'),R=()=>D.user.role,is=(...r)=>r.includes(R()),ir=()=>D.user.inv,iis=(...r)=>r.includes(ir());
+const S=()=>D.settings;
+/* إخفاء الحركات المعكوسة عند طباعة/تصدير كشوف الحسابات (تفضيل محفوظ في المتصفح) */
+window.HR={on(){try{return localStorage.getItem('gh_hidrev')==='1'}catch(e){return false}},set(v){try{localStorage.setItem('gh_hidrev',v?'1':'0')}catch(e){}},
+ box(){return `<label class="chk" style="font-weight:400"><input type="checkbox" data-hr="1"${HR.on()?' checked':''}> إخفاء الحركات المعكوسة عند الطباعة والتصدير</label>`},
+ p(o){if(HR.on())o.hideRev=true;return o}};
+document.addEventListener('change',e=>{const t=e.target;if(t&&t.dataset&&t.dataset.hr!==undefined){HR.set(t.checked);document.querySelectorAll('input[data-hr]').forEach(x=>{x.checked=t.checked})}});
+
+/* ---------- الاتصال بالخادم ---------- */
+let nb=0,RID='';
+const newRid=()=>Math.random().toString(36).slice(2,12)+Date.now().toString(36);
+/* ---- شاشة الانتظار ----
+   - العمليات السريعة لا تُظهر شيئًا (الشريط العلوي فقط) فلا يتعطل العمل
+   - الأوامر (حفظ/اعتماد/ترحيل...) تظهر لها الشاشة لو تجاوزت 0.6 ثانية، والقراءات والتقارير لو تجاوزت 3 ثوانٍ
+   - الاستيراد وقراءة المرفقات وفحص التحديثات لها مؤشراتها الخاصة فلا تُحجب */
+const LD_SKIP=/^(ping|bootstrap|attList|noteList|getFile|ctTick|imp(Meta|Check|Run|Begin|End|Log))$/;
+const LD_READ=/^(list\w*|get\w*|\w*(List|Meta|Rep|Stmt|Cmp|Cost|Card)|tb|gl|ie|bs|apAging|exportJE|exportAll|stockCard|reconcile|acctCheck|jeDims|invDims|rfqCmp|bomCost|mfgShort)$/;
+let ldN=0,ldT=0,ldAt=0,ldM=0,ldH=0;
+function ldrShow(){const d=$('#ldr');if(!d||d.open)return;try{d.showModal()}catch(e){d.setAttribute('open','')}ldAt=Date.now();$('#ldt').textContent='جارٍ التنفيذ…';$('#ldm').textContent='';['ldb','ldn','lde'].forEach(k=>{$('#'+k).hidden=true});clearTimeout(ldM);ldM=setTimeout(()=>{$('#ldm').textContent='ما زال التنفيذ جاريًا، من فضلك لا تغلق الصفحة'},7000)}
+function ldrOn(a){if(LD_SKIP.test(a))return 0;ldN++;if(ldN===1){clearTimeout(ldT);ldT=setTimeout(ldrShow,LD_READ.test(a)?3000:600)}return 1}
+function ldrClose(){if(ldN>0||ldH>0)return;clearTimeout(ldT);clearTimeout(ldM);const d=$('#ldr');if(d&&d.open){const w=Math.max(0,400-(Date.now()-ldAt));setTimeout(()=>{if(!ldN&&!ldH&&d.open){try{d.close()}catch(e){d.removeAttribute('open')}}},w)}}
+function ldrOff(){if(--ldN>0)return;ldN=0;ldrClose()}
+/* شاشة انتظار مع تقدّم (للاستيراد): تظهر فورًا ولا تُغلق إلا بـ end()
+   h=ldrHold('عنوان'); h.set(منجز,إجمالي,'وصف'); h.end() */
+window.ldrHold=title=>{
+  ldH++;clearTimeout(ldT);ldrShow();
+  const t0=Date.now();let fin=0,eta0=0;
+  $('#ldt').textContent=title||'جارٍ التنفيذ…';clearTimeout(ldM);
+  $('#ldm').textContent='من فضلك لا تغلق الصفحة ولا تتصفح غيرها حتى ينتهي';
+  const b=$('#ldb'),n=$('#ldn'),e=$('#lde');b.hidden=false;b.classList.add('ind');$('#ldbar').style.width='';n.hidden=true;e.hidden=true;
+  const warn=ev=>{ev.preventDefault();ev.returnValue=''};window.addEventListener('beforeunload',warn);
+  return{
+    set(done,total,label){
+      if(fin)return;
+      if(label)$('#ldt').textContent=label;
+      if(!(total>0)){b.classList.add('ind');n.hidden=true;e.hidden=true;return}
+      const pc=Math.min(100,Math.floor(done/total*100));
+      b.classList.remove('ind');$('#ldbar').style.width=pc+'%';
+      n.hidden=false;n.textContent=pc+'%  —  '+done+' من '+total;
+      const left=total-done;e.hidden=false;
+      if(done>0&&left>0&&Date.now()-t0>2500){const sec=Math.ceil((Date.now()-t0)/done*left/1000);e.textContent='باقي '+left+(sec>=60?' — حوالي '+Math.ceil(sec/60)+' دقيقة':' — حوالي '+sec+' ثانية')}
+      else e.textContent=left>0?'باقي '+left:'اكتمل'
+    },
+    end(){if(fin)return;fin=1;ldH=Math.max(0,ldH-1);window.removeEventListener('beforeunload',warn);ldrClose()}
+  }
+};
+document.addEventListener('DOMContentLoaded',()=>{const d=$('#ldr');if(d)d.addEventListener('cancel',e=>e.preventDefault())});
+async function api(a,d={},rid0){
+  $('#busy').hidden=false;nb++;const ldk=ldrOn(a);
+  try{
+    const free=['bootstrap','login','pub','ping','forgotPw','resetPw'].includes(a);
+    const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:a,token:tok,data:d,sync:(free||/^(imp(Meta|Check|Run|Begin|End|Log)|)$/.test(a))?undefined:1,rid:free?undefined:(rid0||((dlg.open&&RID)?RID:newRid()))})});
+    const j=await r.json();
+    if(!j.ok){if(j.auth&&a!=='login')out(true);throw new Error(j.error||'خطأ غير معروف')}
+    if(j.follow&&(j.follow.msg||j.follow.warn)){const fw=j.follow;setTimeout(()=>toast(fw.msg||fw.warn,!fw.msg),400)}
+    // الخادم أرجع أحدث البيانات مع نتيجة العملية: نطبّقها فورًا بدل طلب تحميل ثانٍ
+    if(j.boot){const b=j.boot;delete j.boot;delete b.ok;if(b.user&&!b.user.mustChange)applyBoot(b);fbNotify()}
+    return j;
+  }catch(e){if(e instanceof TypeError||e instanceof SyntaxError)throw new Error('تعذر الاتصال بالخادم، تحقق من الرابط في config.js');throw e}
+  finally{if(!--nb)$('#busy').hidden=true;if(ldk)ldrOff()}
+}
+function toast(m,e){const t=$('#toast');t.textContent=m;t.className=e?'er on':'on';
+  /* طبقة الأعلى (top layer): تظهر الرسالة فوق النوافذ المنبثقة (dialog) مهما فُتح بعدها */
+  try{if(t.showPopover){if(t.matches(':popover-open'))t.hidePopover();t.showPopover()}}catch(x){}
+  clearTimeout(toast.t);toast.t=setTimeout(()=>{t.className='';try{if(t.matches(':popover-open'))t.hidePopover()}catch(x){}},3800)}
+async function run(a,d,msg){try{const j=await api(a,d);await load(1);if(j&&j.wf&&j.wf.pending)toast('✓ '+j.wf.msg);else if(msg)toast(msg);if(j&&j.warn)setTimeout(()=>toast('⚠ '+j.warn,1),900);return j}catch(e){toast(e.message,1);return false}}
+let lastApply=0;
+function applyBoot(j){
+  const q=$('#v input[placeholder="بحث..."]'),qv=q?q.value:'';
+  const sy=window.scrollY;
+  if(j&&j.settings)window.__thReal=1;D=Object.assign(D,j);lastApply=Date.now();render();
+  const q2=$('#v input[placeholder="بحث..."]');if(q2&&qv){q2.value=qv;flt(q2)}
+  window.scrollTo(0,sy);
+}
+async function load(q){
+  // لو وصلت بيانات حديثة مع رد عملية قبل لحظات لا نكرر الطلب
+  if(q&&Date.now()-lastApply<1500)return;
+  try{
+    const j=await api('bootstrap');
+    delete j.ok;applyBoot(j);fbStart();
+    if(D.user.mustChange&&!force){force=true;A.pw()}
+  }catch(e){if(!q)toast(e.message,1)}
+}
+/* ---- مدة الجلسة والخمول ---- */
+const SE=()=>Object.assign({hours:168,idle:0,maxFails:5,lockMin:10,pwMin:6,pwMix:false},D.sec||{});
+const pwRule=()=>{const e=SE();return e.pwMin+' أحرف على الأقل'+(e.pwMix?' وتحتوي حروفًا وأرقامًا':'')};
+const pwBad=p=>{const e=SE();p=String(p||'');if(p.length<e.pwMin)return 'كلمة المرور '+e.pwMin+' أحرف على الأقل';if(e.pwMix&&!(/[A-Za-z\u0621-\u064A]/.test(p)&&/[0-9\u0660-\u0669]/.test(p)))return 'كلمة المرور يجب أن تحتوي على حروف وأرقام';return ''};
+const tokIat=()=>{try{const p=atob(tok.split('.')[0].replace(/-/g,'+').replace(/_/g,'/')).split('|');return +p[3]||(+p[1]-7*864e5)}catch(e){return 0}};
+let secLast=0,secWarn=0;
+function secTouch(force){const n=Date.now();if(!force&&n-secLast<5000)return;secLast=n;try{localStorage.setItem('gh_act',String(n))}catch(e){}secWarn=0}
+['mousemove','keydown','click','touchstart','scroll'].forEach(ev=>addEventListener(ev,()=>secTouch(0),{passive:true,capture:true}));
+function secCheck(){
+  if(!D.user||!tok){return}
+  if(!tokInit()){out(true,'انتهت الجلسة، سجّل الدخول مرة أخرى');return}
+  if(typeof ldH!=='undefined'&&(ldH>0||ldN>0))return; // لا نقطع عملية جارية (استيراد/حفظ)
+  const e=SE(),n=Date.now(),iat=tokIat();
+  if(iat&&n>iat+e.hours*36e5){out(true,'انتهت مدة الجلسة ('+e.hours+' ساعة)، سجّل الدخول مرة أخرى');return}
+  if(e.idle>0){let last=secLast;try{last=Math.max(last,+localStorage.getItem('gh_act')||0)}catch(x){}
+    const left=last+e.idle*6e4-n;
+    if(left<=0){out(true,'تم تسجيل الخروج تلقائيًا لعدم النشاط');return}
+    if(left<=6e4&&!secWarn){secWarn=1;toast('سيتم تسجيل الخروج خلال دقيقة لعدم النشاط — حرّك الماوس للاستمرار',1)}}
+}
+secTouch(1);setInterval(secCheck,15000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)secCheck()});
+function out(expired,msg){const old=tok;tok='';tokClear(old);D.user=null;force=false;if(dlg.open)dlg.close();render();if(expired)toast(msg||'انتهت الجلسة، سجّل الدخول مرة أخرى',1)}
+
+/* ---------- عناصر مساعدة للواجهة (مشتركة بين المديولات) ---------- */
+const tbl=(h,r)=>'<table><thead><tr>'+h.map(x=>'<th>'+x+'</th>').join('')+'</tr></thead><tbody>'+(r.length?r.map(x=>'<tr>'+x.map(c=>'<td>'+c+'</td>').join('')+'</tr>').join(''):'<tr><td colspan="'+h.length+'" style="text-align:center;color:var(--m)">لا توجد بيانات</td></tr>')+'</tbody></table>';
+const btn=(a,i,t,c='')=>`<button class="b s ${c}" data-a="${a}" data-i="${esc(i)}">${t}</button>`;
+const head=(t,a,l,extra='')=>`<div class="tb"><h2>${t}</h2><input style="width:200px" placeholder="بحث..." oninput="flt(this)">${extra}${a&&canV('c')?`<button class="b g" data-a="${a}" data-i="">${l||'+ جديد'}</button>`:''}</div>`;
+const flt=e=>{if($('#dsf')&&window.dsflt)return dsflt();if(($('#dtf')||$('#dof')||$('#dcf'))&&window.dflt)return dflt();$$('#v tbody tr').forEach(r=>r.hidden=!r.textContent.includes(e.value))};
+const st=x=>`<span class="st">${esc(x)}</span>`;
+const fld=(l,n,v='',t='text',c='')=>`<div class="${c}"><label>${l}</label>${t=='ta'?`<textarea name="${n}" rows="2">${esc(v)}</textarea>`:`<input name="${n}" type="${t}" value="${esc(v)}">`}</div>`;
+const sel=(l,n,o,v,c='')=>`<div class="${c}"><label>${l}</label><select name="${n}">${o.map(x=>`<option value="${esc(x[0])}"${x[0]==v?' selected':''}>${esc(x[1])}</option>`).join('')}</select></div>`;
+const rd=(r='#m')=>{const o={};$$(r+' [name]').forEach(e=>o[e.name]=e.value);return o};
+const kv=(l,v)=>`<div><label>${l}</label><div>${esc(v)||'—'}</div></div>`;
+let mdlHook=null;
+function mdl(t,body,fn,ok='حفظ',forced){RID=newRid();$('#mt').textContent=t;$('#mb').innerHTML=body;$('#ms').textContent=ok;$('#ms').style.display=fn?'':'none';$('#mc').hidden=!!forced;H=fn;dlg.showModal();$$('#mb input[name=proj]').forEach(i=>i.setAttribute('list','pjl'));if(tl(view)==='r'&&mod!=='adm'&&!force)roStrip('#mb');if(mdlHook)mdlHook();if(typeof attInit==='function'&&$('#mb .att'))attInit()}
+$('#ms').onclick=async()=>{const b=$('#ms');b.disabled=true;try{const r=await H();if(r!==false)dlg.close()}finally{b.disabled=false}};
+dlg.oncancel=e=>{if(force)e.preventDefault()};
+document.onclick=e=>{const b=e.target.closest('[data-a]');if(b&&A[b.dataset.a])A[b.dataset.a](b.dataset.i)};
+// الطباعة: ننتظر تحميل الشعار ثم نطبع محتوى #ps
+function printHtml(html){
+  $('#ps').innerHTML=html;
+  const im=$('#ps img');
+  if(im&&!im.complete){im.onload=im.onerror=()=>window.print()}else setTimeout(()=>window.print(),100);
+}
+const avIn=u=>u&&u.avatar&&/^data:image\//.test(u.avatar)?`<img src="${u.avatar}" alt="">`:esc((String((u&&u.name)||'؟').trim()[0]||'؟'));
+const printHead=(title)=>{const c=S();return `<div class="h">${c.logo?`<img src="${esc(c.logo)}" alt="">`:''}<div><h1>${esc(c.org)}</h1><span>${esc(c.tag)}</span>${(c.taxNo||c.crNo)?`<span>${c.taxNo?'الرقم الضريبي: '+esc(c.taxNo):''}${(c.taxNo&&c.crNo)?' — ':''}${c.crNo?'السجل التجاري: '+esc(c.crNo):''}</span>`:''}</div><div class="t">${esc(title)}</div></div>`};
+const printFoot=()=>{const c=S();return `<div class="ft">${[c.addr,c.tel,c.mail].filter(Boolean).map(esc).join(' &nbsp;|&nbsp; ')||'&nbsp;'}</div>`};
+
+/* ---------- الدخول والخروج ---------- */
+function setIcon(u){try{document.querySelectorAll('link[rel~=icon],link[rel=apple-touch-icon]').forEach(l=>l.remove());
+  ['icon','apple-touch-icon'].forEach(r=>{const l=document.createElement('link');l.rel=r;l.href=u;document.head.appendChild(l)});
+  const m=document.querySelector('link[rel=manifest]');if(m){const a=new URL(u,location.href).href,mf={name:'نظام إدارة الكيترينج',short_name:'الكيترينج',lang:'ar',dir:'rtl',start_url:location.href.split('#')[0],display:'standalone',background_color:'#f4f4f4',theme_color:S().p||'#1f4e79',icons:[{src:a,sizes:'192x192',purpose:'any'},{src:a,sizes:'512x512',purpose:'any'}]};m.href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:'application/manifest+json'}))}
+  localStorage.setItem('gh_icon',u)}catch(e){}}
+function applyTheme(){const r=document.documentElement.style;r.setProperty('--p',S().p);r.setProperty('--a',S().a);
+  if(window.__thReal){document.documentElement.classList.remove('thw');try{const lg0=S().logo;localStorage.setItem('gh_brand',JSON.stringify({p:S().p,a:S().a,org:S().org,tag:S().tag,logo:(typeof lg0==='string'&&lg0.length<60000)?lg0:''}))}catch(e){}}
+  try{const tc=document.querySelector('meta[name=theme-color]');if(tc&&/^#[0-9a-fA-F]{6}$/.test(S().p))tc.content=S().p;
+   const lg=S().logo;if(lg&&lg!==window.__fav){window.__fav=lg;const im=new Image();im.onload=()=>setIcon(lg);im.src=lg}}catch(e){}}
+function setupView(){$('header').hidden=true;$('#v').innerHTML=`<div class="box lg"><h2>إعداد الاتصال</h2><p class="mu">الصق رابط الـ Web App (ينتهي بـ /exec)، أو ضعه في ملف config.js</p><input id="au" dir="ltr" placeholder="https://script.google.com/macros/s/.../exec"><button class="b" id="ab" style="width:100%">حفظ</button></div>`;$('#ab').onclick=()=>{const v=$('#au').value.trim();if(!/^https:\/\/script\.google\.com\//.test(v)){toast('الرابط غير صحيح',1);return}localStorage.setItem('gh_api',v);location.reload()}}
+function loginView(){
+  $('header').hidden=true;applyTheme();const c=S();
+  $('#v').innerHTML=`<div class="box lg">${c.logo?`<img src="${esc(c.logo)}" alt="">`:''}<h2>${esc(c.org)}</h2><p class="mu">نظام إدارة الكيترينج — تسجيل الدخول</p><label>اسم المستخدم</label><input id="lu" dir="ltr" autocomplete="username" autocapitalize="off"><label>كلمة المرور</label><div class="pwf"><input id="lp" type="password" dir="ltr" autocomplete="current-password"><button type="button" class="pwe" id="lpe" aria-label="إظهار كلمة المرور" title="إظهار / إخفاء كلمة المرور"><svg class="eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><svg class="off" viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M10.6 6.1A10.7 10.7 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.2M6.6 6.6A17.7 17.7 0 0 0 2 12s3.6 7 10 7a10 10 0 0 0 4.4-1"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button></div><button class="b" id="lb" style="width:100%;margin-top:8px">دخول</button><p style="text-align:center;margin:12px 0 0"><a href="#" id="lfg" style="font-size:13px">نسيت كلمة السر؟</a></p></div>`;
+  const go=async()=>{const b=$('#lb');b.disabled=true;try{const j=await api('login',{username:$('#lu').value,password:$('#lp').value});tok=j.token;tokSet(tok);secTouch(1);D.user=j.user;mod='';view='';await load()}catch(e){toast(e.message,1)}finally{b.disabled=false}};
+  $('#lfg').onclick=e=>{e.preventDefault();fgView($('#lu').value)};
+  $('#lb').onclick=go;$('#lp').onkeydown=e=>{if(e.key=='Enter')go()};
+  $('#lpe').onclick=()=>{const i=$('#lp'),b=$('#lpe'),sh=i.type==='password';i.type=sh?'text':'password';b.classList.toggle('on',sh);b.setAttribute('aria-label',sh?'إخفاء كلمة المرور':'إظهار كلمة المرور');i.focus()};
+}
+/* استعادة كلمة المرور بكود على البريد المسجل */
+function fgView(u0){
+  $('header').hidden=true;const c=S();
+  const back=()=>loginView();
+  $('#v').innerHTML=`<div class="box lg">${c.logo?`<img src="${esc(c.logo)}" alt="">`:''}<h2>${esc(c.org)}</h2><p class="mu">استعادة كلمة المرور</p>
+   <div id="fg1"><p class="mu">اكتب اسم المستخدم أو بريدك المسجل، وسنرسل كود التحقق على البريد الإلكتروني المسجل في حسابك.</p><label>اسم المستخدم أو البريد</label><input id="fgu" dir="ltr" autocapitalize="off" value="${esc(u0||'')}"><button class="b" id="fgs" style="width:100%;margin-top:10px">إرسال الكود</button></div>
+   <div id="fg2" hidden><p class="mu" id="fgm"></p><label>كود التحقق (6 أرقام)</label><input id="fgc" dir="ltr" inputmode="numeric" maxlength="6" autocomplete="one-time-code"><label>كلمة المرور الجديدة</label><input id="fgp" type="password" dir="ltr" autocomplete="new-password"><label>تأكيد كلمة المرور</label><input id="fgp2" type="password" dir="ltr" autocomplete="new-password"><button class="b" id="fgr" style="width:100%;margin-top:10px">تغيير كلمة المرور</button><p style="text-align:center;margin:8px 0 0"><a href="#" id="fgagain" style="font-size:13px">إعادة إرسال الكود</a></p></div>
+   <p style="text-align:center;margin:12px 0 0"><a href="#" id="fgb" style="font-size:13px">رجوع لتسجيل الدخول</a></p></div>`;
+  const send=async()=>{const b=$('#fgs');b.disabled=true;try{const j=await api('forgotPw',{username:$('#fgu').value});$('#fgm').textContent=j.msg;$('#fg1').hidden=true;$('#fg2').hidden=false;$('#fgc').focus()}catch(e){toast(e.message,1)}finally{b.disabled=false}};
+  $('#fgs').onclick=send;$('#fgu').onkeydown=e=>{if(e.key==='Enter')send()};
+  $('#fgagain').onclick=e=>{e.preventDefault();send()};
+  $('#fgr').onclick=async()=>{const p=$('#fgp').value;if(p!==$('#fgp2').value){toast('كلمتا المرور غير متطابقتين',1);return}
+    const b=$('#fgr');b.disabled=true;try{await api('resetPw',{username:$('#fgu').value,code:$('#fgc').value,password:p});toast('تم تغيير كلمة المرور؛ سجّل الدخول بها');back()}catch(e){toast(e.message,1)}finally{b.disabled=false}};
+  $('#fgb').onclick=e=>{e.preventDefault();back()};
+}
+A.out=()=>{if(confirm('تسجيل الخروج؟'))out()};
+A.ref=()=>load();
+A.pw=()=>mdl('تغيير كلمة المرور',(force?'<div class="full mu">يجب تغيير كلمة المرور المؤقتة قبل المتابعة.</div>':'')+fld('كلمة المرور الحالية','o','','password','full')+fld('كلمة المرور الجديدة ('+pwRule()+')','n','','password','full')+fld('تأكيد كلمة المرور الجديدة','n2','','password','full'),async()=>{const o=rd();if(o.n!=o.n2){toast('كلمتا المرور غير متطابقتين',1);return false}{const m=pwBad(o.n);if(m){toast(m,1);return false}}try{const j=await api('changePw',{old:o.o,nw:o.n});tok=j.token;tokSet(tok);force=false;D.user.mustChange=false;await load(1);toast('تم تغيير كلمة المرور');return true}catch(e){toast(e.message,1);return false}},'حفظ',force);
+
+/* ---------- تبديل المديولات والتنقل ---------- */
+const MOD_ORDER=['proc','inv','mfg','sal','exp','acc','hr','imp','adm'];
+const avMods=()=>MOD_ORDER.filter(k=>MODS[k]&&MODS[k].has()&&MODS[k].nav().some(n=>tl(n[0])!=='x'));
+function ensureNav(){
+  const ks=avMods();
+  if(!ks.includes(mod))mod=ks[0]||'proc';
+  const nav=(MODS[mod]?MODS[mod].nav():[]).filter(n=>tl(n[0])!=='x');
+  if(nav.length&&!nav.some(n=>n[0]==view))view=(LASTV[mod]&&nav.some(n=>n[0]==LASTV[mod]))?LASTV[mod]:nav[0][0];
+  return nav;
+}
+A.ng=g=>{window.NGO=window.NGO||{};const nav=ensureNav(),actG=(nav.find(n=>n[0]==view)||[])[2]||'',key=mod+'|'+g,cur=key in window.NGO?window.NGO[key]:g===actG;window.NGO[key]=!cur;render()};
+A.mod=k=>{LASTV[mod]=view;mod=k;view='';render()};
+A.go=i=>{view=i;LASTV[mod]=i;render()};
+
+function render(){
+  if(typeof ssClose==='function')ssClose();
+  if(!API_URL)return setupView();
+  if(!D.user)return loginView();
+  applyTheme();const c=S();$('header').hidden=false;
+  const nav=ensureNav();
+  $('#hb').innerHTML=(c.logo?`<img src="${esc(c.logo)}" alt="">`:'')+`<b>${esc(c.org)}</b><span style="flex:1"></span><button class="b s h" data-a="bell" title="الإشعارات">🔔${D.unread?` <b class="bn">${D.unread}</b>`:''}</button><button class="b s h" data-a="xl" title="تصدير الشاشة الحالية إلى Excel">تصدير Excel</button><button class="b s h" data-a="ref">تحديث</button><button class="b s h pv" data-a="prof" title="الملف الشخصي" aria-haspopup="true"><span class="av">${avIn(D.user)}</span><span class="pn">${esc(D.user.name)}</span></button>`;
+  const ks=avMods();
+  $('#mods').innerHTML=ks.map(k=>`<button class="${k==mod?'on':''}" data-a="mod" data-i="${k}">${MODS[k].title}</button>`).join('');
+  const actG=(nav.find(n=>n[0]==view)||[])[2]||'',many=nav.length>12;
+  $('#nav').innerHTML=nav.map(([k,t,g],i)=>{g=g||'';const pg=i?(nav[i-1][2]||''):'';const key=mod+'|'+g,ov=window.NGO&&window.NGO[key],open=!g||!many||(ov!==undefined?ov:g===actG);
+    return (g&&g!==pg?(many?`<button class="nvg ${open?'op':''}" data-a="ng" data-i="${esc(g)}"><span>${g}</span><i>${open?'▾':'◂'}</i></button>`:`<div class="nvg" style="cursor:default">${g}</div>`):'')+(open?`<button class="${k==view?'on':''}" data-a="go" data-i="${k}">${t}</button>`:'')}).join('');
+  $('#pjl').innerHTML=((D.acc&&D.acc.projNames)||[]).map(n=>`<option value="${esc(n)}">`).join('');
+  $('#v').innerHTML=nav.length&&V[view]?V[view]():'<div class="box">لا توجد شاشات متاحة لهذا الحساب.</div>';
+  if(tl(view)==='r'){roStrip('#v');}
+}
+
+/* =====================================================================
+   مديول الإدارة (للمدير فقط): المستخدمون والصلاحيات، السجل، الإعدادات
+   ===================================================================== */
+MODS.adm={title:'الإدارة',has:()=>D.user.role==='admin',nav:()=>[['a_users','المستخدمون'],['a_prof','الأدوار والصلاحيات'],['a_guide','دليل الصلاحيات'],['a_dept','الإدارات'],['a_proj','الفروع'],['a_log','السجل'],['a_set','الإعدادات العامة'],['a_sec','الحماية والجلسات'],['a_je','قيود اليومية'],['a_bak','النسخ الاحتياطي والتصدير']]};
+V.a_dept=()=>{const L=DP(),leg=D.deptLegacy||[];
+  return head('دليل الإدارات (التكويد)','ndp','+ إدارة جديدة')+`<div class="box">${tbl(['الكود','اسم الإدارة','المسؤول','مستخدمون/مستندات','الحالة','إجراءات'],L.map(p=>[`<b>${esc(p.code)}</b>`,esc(p.name),esc(p.head),(D.deptUse||{})[p.id]||0,st(p.active?'نشط':'موقوف'),btn('ndp',p.id,'تعديل','o')]))}</div>
+<div class="box"><p class="mu">الإدارة المُكوَّدة تظهر كقائمة في بيانات المستخدم وفي طلب الشراء وطلب الصرف، ويُحفظ كودها في المستند، ويُفترض اختيار إدارة المستخدم تلقائيًا في الطلبات الجديدة. الإدارة الموقوفة لا تظهر للاختيار الجديد وتبقى مستنداتها. لا يتغير كود الإدارة بعد استخدامه. ملاحظة: الإدارة هنا للتنظيم والتقارير وليست بُعدًا محاسبيًا في القيود (الأبعاد المحاسبية هي الفرع).</p></div>`+
+(leg.length?`<div class="box"><h3>جهات مكتوبة يدويًا قبل التكويد</h3><p class="mu">أسماء كُتبت نصًا في طلبات قديمة ولا تطابق أي إدارة في الدليل. أنشئ لها إدارة بنفس الاسم لتُربط تلقائيًا.</p>${tbl(['الاسم المكتوب','عدد الطلبات',''],leg.map(x=>[esc(x.name),x.n,btn('ndpn',x.name,'إنشاء إدارة بهذا الاسم','o')]))}</div>`:'')};
+A.ndp=i=>{const x=i?DP().find(p=>p.id==i):{active:true};
+  mdl(i?'تعديل إدارة':'إدارة جديدة',fld(i&&(D.deptUse||{})[i]?'كود الإدارة (مقفل: مستخدم)':'كود الإدارة (اتركه فارغًا للترقيم التلقائي DEP-001)','code',x.code||'','text')+fld('اسم الإدارة','name',x.name,'text','full')+fld('مسؤول الإدارة','head',x.head||'','text','full')+fld('ملاحظات','note',x.note||'','ta','full')+(i?sel('الحالة','active',[['true','نشط'],['false','موقوف']],x.active?'true':'false'):''),
+  ()=>run('saveDept',{...rd(),id:i||undefined},'تم حفظ الإدارة'));
+  if(i&&(D.deptUse||{})[i])$('#m [name=code]').readOnly=true;
+};
+A.ndpn=n=>{A.ndp('');setTimeout(()=>{const e=$('#m [name=name]');if(e)e.value=n},0)};
+V.a_proj=()=>{const L=PJ(),leg=D.projLegacy||[];
+  return head('دليل الفروع (التكويد)','nprj','+ فرع جديد')+`<div class="box">${tbl(['الكود','اسم الفرع','من','إلى','مستندات/قيود','الحالة','إجراءات'],L.map(p=>[`<b>${esc(p.code)}</b>`,esc(p.name),esc(p.start),esc(p.end),(D.projUse||{})[p.id]||0,st(p.active?'نشط':'موقوف'),btn('nprj',p.id,'تعديل','o')]))}</div>
+`+
+(leg.length?`<div class="box"><h3>فروع مكتوبة يدويًا قبل التكويد</h3><p class="mu">هذه أسماء كُتبت نصًا في مستندات قديمة ولا تطابق أي فرع في الدليل. أنشئ لها فرعًا بنفس الاسم لتُربط تلقائيًا.</p>${tbl(['الاسم المكتوب','عدد المستندات',''],leg.map(x=>[esc(x.name),x.n,btn('nprjn',x.name,'إنشاء فرع بهذا الاسم','o')]))}</div>`:'')};
+A.nprj=i=>{const x=i?PJ().find(p=>p.id==i):{active:true};
+  mdl(i?'تعديل فرع':'فرع جديد',fld(i&&(D.projUse||{})[i]?'كود الفرع (مقفل: عليه مستندات)':'كود الفرع (اتركه فارغًا للترقيم التلقائي BR-001)','code',x.code||'','text')+fld('اسم الفرع','name',x.name,'text','full')+fld('تاريخ البداية','start',x.start||'','date')+fld('تاريخ النهاية','end',x.end||'','date')+((D.cc||[]).length?sel('مركز التكلفة الافتراضي (تَرِثه قيود الفرع)','cc',[['','— بدون —']].concat((D.cc||[]).filter(c=>c.active||c.id==x.cc).map(c=>[c.id,c.code+' · '+c.name])),x.cc||'','full'):'')+fld('ملاحظات','note',x.note||'','ta','full')+(i?sel('الحالة','active',[['true','نشط'],['false','موقوف']],x.active?'true':'false'):''),
+  ()=>run('saveProj',{...rd(),id:i||undefined},'تم حفظ الفرع'));
+  if(i&&(D.projUse||{})[i])$('#m [name=code]').readOnly=true;
+};
+A.nprjn=n=>{A.nprj('');setTimeout(()=>{const e=$('#m [name=name]');if(e)e.value=n},0)};
+A.spj=()=>run('saveSettings',rd('#pjs'),'تم حفظ إعدادات الفروع');
+const TABL={proc:['المشتريات',[['p_dash','لوحة التحكم'],['p_pr','طلبات الشراء'],['p_po','أوامر التوريد'],['p_sup','الموردون'],['p_svc','دليل الخدمات'],['p_rfq','عروض الأسعار'],['p_ct','العقود'],['p_inv','فواتير المشتريات']]],
+ inv:['المخازن',[['i_dash','لوحة التحكم'],['i_stock','الأرصدة'],['i_req','طلبات الصرف'],['i_grn','الاستلام'],['i_iss','الصرف'],['i_trf','التحويلات'],['i_cnt','الجرد'],['i_items','الأصناف'],['i_wh','المخازن']]],
+ acc:['الحسابات',[['c_dash','لوحة التحكم'],['c_je','القيود'],['c_ap','الموردون والسداد'],['c_gl','دفتر الأستاذ'],['c_tb','ميزان المراجعة'],['c_rep','القوائم المالية'],['c_coa','دليل الحسابات'],['c_icat','تصنيفات الأصناف'],['c_prj','الفروع ومراكز الربح'],['c_map','ربط الحسابات'],['c_bud','الموازنات'],['c_trn','التحويلات'],['c_chq','الشيكات'],['c_bnk','التسوية البنكية'],['c_adv','العهد والسلف'],['c_fa','الأصول الثابتة'],['c_per','الفترات والفحص'],['c_dim','التحليل متعدد الأبعاد'],['c_cc','مراكز التكلفة'],['c_bk','البنوك والخزينة'],['c_chk','فحص سلامة الدفاتر'],['c_bvr','تقرير الموازنة'],['c_bct','رقابة الموازنة']]],
+ hr:['الموارد البشرية',[['h_emp','الموظفون'],['h_lv','الإجازات'],['h_pay','الرواتب']]],
+ exp:['المصروفات',[['x_dash','لوحة التحكم'],['c_exp','المصروفات'],['x_cat','تصنيفات المصروفات'],['c_exr','تقارير المصروفات']]],
+ sal:['المبيعات',[['s_dash','لوحة التحكم'],['s_cus','العملاء'],['s_svc','دليل الخدمات'],['s_ord','طلبات المناسبات'],['s_pkg','باقات المنيو'],['s_inv','فواتير المبيعات'],['s_rep','التقارير']]],
+ mfg:['التصنيع',[['m_dash','لوحة التحكم'],['m_mo','أوامر التصنيع'],['m_bom','قوائم المواد'],['m_wc','مراكز العمل'],['m_pool','تجمّعات التكلفة'],['m_alloc','تحميل المصروفات'],['m_rep','التقارير']]],
+ imp:['الاستيراد',[['i_imp','استيراد من Excel'],['i_log','سجل الاستيراد']]],
+ ap:['الاعتمادات',[['ap_in','اعتماداتي'],['ap_dl','التفويض'],['ap_cfg','سلاسل الاعتماد'],['ap_hist','سجل السلاسل']]]};
+const VB=[['v','عرض'],['c','إنشاء/تعديل'],['a','اعتماد/ترحيل'],['d','حذف/إلغاء'],['x','تقارير']];
+const MODN={proc:'المشتريات',inv:'المخازن',acc:'الحسابات',hr:'الموارد البشرية',mfg:'التصنيع',sal:'المبيعات',exp:'المصروفات',imp:'الاستيراد'};
+const MODR={proc:ROLES,inv:IROLES,acc:AROLES,hr:HROLES,mfg:MROLES,sal:SROLES,exp:XROLES,imp:IMROLES};
+const LIMN=[['pr','حد اعتماد طلب الشراء'],['po','حد اعتماد أمر التوريد'],['pay','حد سداد الموردين'],['je','حد ترحيل القيد']];
+const wlist=()=>((D.inv&&D.inv.wh)||[]);
+const canV=(v,k)=>{const u=D.user;if(!u||u.role==='admin')return true;k=k||view;return !((u.deny||{})[k]||'').includes(v)};
+const scopeHtml=(sc,id,withDon)=>{sc=sc||{};const W=wlist(),wh=sc.whs||[];return `<div id="${id}" class="full"><label class="chk"><input type="checkbox" data-sm${sc.mine?' checked':''}> <b>يرى الحركات التي سجّلها هو فقط</b> في كل المديولات (الطلبات والمستندات والقيود والفواتير وطلبات المناسبات ...). البيانات الأساسية والتكويدات (العملاء، الموردون، الأصناف، الحسابات ...) تبقى ظاهرة للاختيار، والتقارير والملخصات تُحسب على حركاته فقط (ما عدا التصدير الشامل وفحص الحسابات).</label>
+<label class="chk"><input type="checkbox" data-so${sc.own?' checked':''}> يرى ويعمل على طلبات <b>إدارته فقط</b> (إدارة المستخدم المسجلة في بياناته)</label>
+<div class="mu" style="margin:6px 0 2px">إدارات إضافية يشملها النطاق (بدون تحديد = لا قيد على الإدارات):</div>${DP().map(d=>`<label class="chk"><input type="checkbox" data-sd value="${esc(d.code)}"${(sc.depts||[]).includes(d.code)?' checked':''}> ${esc(d.name)}</label>`).join('')||'<span class="mu"> (لا إدارات مُكوَّدة)</span>'}
+<div class="mu" style="margin:8px 0 2px">الفروع المسموحة (بدون تحديد = كل الفروع). سجلات المستخدم نفسه تظهر دائمًا:</div>${PJ().map(p=>`<label class="chk"><input type="checkbox" data-sp value="${esc(p.code)}"${(sc.projs||[]).includes(p.code)?' checked':''}> ${esc(p.name)}</label>`).join('')||'<span class="mu"> (لا فروع مُكوَّدة)</span>'}
+<div class="mu" style="margin:8px 0 2px">المخازن (لأمين المخزن والمراجع):</div><label class="chk"><input type="checkbox" data-sw value="*"${wh.includes('*')?' checked':''}> كل المخازن</label>${W.map(w=>`<label class="chk"><input type="checkbox" data-sw value="${esc(w.id)}"${wh.includes(w.id)?' checked':''}> ${esc(w.name)}</label>`).join('')||'<span class="mu"> (لا مخازن)</span>'}</div>`};
+const scopeGet=id=>{const r='#'+id,o={own:!!($(r+' [data-so]')||{}).checked,mine:!!($(r+' [data-sm]')||{}).checked,};o.depts=$$(r+' [data-sd]:checked').map(e=>e.value);o.projs=$$(r+' [data-sp]:checked').map(e=>e.value);let w=$$(r+' [data-sw]:checked').map(e=>e.value);if(w.includes('*'))w=['*'];o.whs=w;return o};
+const scopeTxt=sc=>{sc=sc||{};const a=[];if(sc.mine)a.push('حركاته فقط');if(sc.deptAll)a.push('كل حركات إدارته');if(sc.own)a.push('إدارته');if((sc.depts||[]).length)a.push(sc.depts.length+' إدارة');if((sc.projs||[]).length)a.push(sc.projs.length+' فرع');if((sc.whs||[]).length)a.push((sc.whs||[]).includes('*')?'كل المخازن':sc.whs.length+' مخزن');return a.join('، ')||'—'};
+const modTxt=m=>Object.entries(MODN).filter(([k])=>m&&m[k]&&m[k]!=='none').map(([k,n])=>n+': '+(MODR[k][m[k]]||m[k])).join(' · ')||'—';
+const limTxt=l=>LIMN.filter(([k])=>l&&l[k]).map(([k,n])=>n.replace('حد ','')+' ≤ '+f(l[k])).join('، ')||'—';
+V.a_prof=()=>head('الأدوار والصلاحيات','npf','+ دور جديد')+`<div class="box">${tbl(['الدور','الوصف','المديولات','الحدود المالية','نطاق البيانات','مستخدمون','الحالة','إجراءات'],(D.profiles||[]).map(p=>[`<b>${esc(p.name)}</b>`,esc(p.desc==='auto'?'(أُنشئ تلقائيًا من صلاحيات قديمة)':p.desc),esc(modTxt(p.mods)),esc(limTxt(p.limits)),esc(scopeTxt(p.scope)),p.users,st(p.active?'نشط':'موقوف'),btn('dzgo',p.id,'تصميم الصلاحيات','g')+btn('npf',p.id,'بيانات الدور','o')+btn('cpf',p.id,'نسخ','o')+(p.users?'':btn('xpf',p.id,'حذف','r'))]))}</div>`;
+A.npf=(i,copy)=>{const x=i?(D.profiles||[]).find(p=>p.id==i):{mods:{},tabs:{},deny:{},limits:{},scope:{},active:true};
+  const nUi=x.ui?(x.ui.hide||[]).length+(x.ui.sens||[]).length:0;
+  mdl(copy?'نسخ دور':i?'تعديل دور':'دور جديد',fld('اسم الدور','name',copy?x.name+' (نسخة)':x.name||'','text','full')+fld('الوصف','desc',x.desc==='auto'?'':x.desc||'','text','full')+
+   (i&&!copy?sel('الحالة','active',[['true','نشط'],['false','موقوف']],x.active?'true':'false'):'')+
+   (i&&!copy?`<div class="full mu">المديولات والتابات والأزرار والأعمدة والكروت والحقول والبيانات الحساسة تُضبط من «مصمم الصلاحيات».${nUi?' حاليًا: '+nUi+' عنصر مقيّد.':''} <button type="button" class="b g" data-a="dzgo" data-i="${esc(i)}">${svg('palette',16)} فتح مصمم الصلاحيات</button></div>`:`<div class="full mu">بعد الحفظ يُفتح مصمم الصلاحيات تلقائيًا لتحديد ما يظهر لهذا الدور.</div>`)+
+   `<div class="full"><label>الحدود المالية للاعتماد (ج.م، فارغ = بلا حد)</label><div class="db">${LIMN.map(([k,n])=>fld(n,'l_'+k,(x.limits||{})[k]||'','number')).join('')}</div></div>`+
+   `<div class="full"><label>نطاق البيانات الافتراضي لهذا الدور</label>${scopeHtml(x.scope,'psc',true)}</div>`,
+  async()=>{const o=rd(),l={};LIMN.forEach(([k])=>{if(o['l_'+k])l[k]=+o['l_'+k]});
+   const r=await run('saveProfile',{id:copy?undefined:i||undefined,name:o.name,desc:o.desc,active:o.active,mods:copy||!i?(copy?x.mods:{}):x.mods,tabs:copy?x.tabs:(i?x.tabs:{}),deny:copy?x.deny:(i?x.deny:{}),limits:l,scope:scopeGet('psc'),ui:copy||i?x.ui:undefined},i&&!copy?'تم حفظ الدور':'تم إنشاء الدور');
+   if(!i||copy){const n=(D.profiles||[]).find(p=>p.name===o.name);if(n)setTimeout(()=>A.dzgo(n.id),200)}
+   return r});
+};
+A.cpf=i=>A.npf(i,1);
+A.xpf=i=>{if(confirm('حذف هذا الدور نهائيًا؟'))run('delProfile',{id:i},'تم حذف الدور')};
+A.mig=()=>{if(confirm('إنشاء أدوار مطابقة لصلاحيات المستخدمين القدامى وإسنادها لهم؟'))run('migrateUsers',{},'تم ترحيل المستخدمين')};
+const upCount=u=>u?Object.keys(u.tabs||{}).length+Object.keys(u.deny||{}).length:0;
+V.a_users=()=>head('المستخدمون والصلاحيات','nu','+ مستخدم جديد')+(D.users.some(x=>x.legacy)?`<div class="box" style="border-color:#d9a441"><b>${D.users.filter(x=>x.legacy).length} مستخدم بصلاحيات قديمة بلا دور</b> — لا يملكون أي وصول حتى يُسنَد لهم دور. <button class="b g" data-a="mig">إنشاء أدوار مطابقة وإسنادها تلقائيًا</button></div>`:'')+`<div class="box">${tbl(['اسم المستخدم','الاسم','الإدارة','الدور','نطاق البيانات','الحالة','إجراءات'],D.users.map(x=>[esc(x.username),esc(x.name),esc(dpl(x.dept))||'—',x.role==='admin'?'مدير النظام':(x.profName?esc(x.profName):'<span class="st" style="background:#f6dede">بلا دور</span>'),x.role==='admin'?'كل البيانات':esc(scopeTxt(x.escope))+(upCount(x.uperm)?' <span class="st" title="تقييد صلاحيات خاص بهذا المستخدم فوق دوره">تقييد خاص</span>':'')+((x.auto||[]).length?' <span class="st" style="background:var(--s)" title="ما يسجّله من: '+esc((x.auto||[]).map(k=>((D.autoKinds||[]).find(z=>z.k===k)||{}).l||k).join('، '))+' يُعتمد تلقائيًا">اعتماد تلقائي ('+x.auto.length+')</span>':''),st(x.active?'نشط':'معطّل'),btn('nu',x.username,'تعديل / إعادة كلمة المرور','o')+(x.username!==D.user.username?btn('xus',x.username,'حذف','r'):'')]))}</div>`;
+V.a_guide=()=>head('دليل الصلاحيات (ما تسمح به كل صلاحية)')+`<div class="box"><h3>مديول المشتريات</h3>${tbl(['الصلاحية','ما تسمح به'],[[ROLES.requester,'إنشاء طلبات شراء ومتابعة طلباته فقط، وتعديل المرفوض منها'],[ROLES.approver,'رؤية كل الطلبات، اعتماد/رفض طلبات الشراء، اعتماد أوامر التوريد، رؤية المتاح في المخزن'],[ROLES.procurement,'تحويل الطلبات المعتمدة لأوامر توريد، إدارة الموردين، إغلاق الاستلام، رؤية حالة استلام أوامره'],[ROLES.finance,'متابعة أوامر التوريد وتسجيل السداد (بعد اكتمال الاستلام)']])}</div>
+<div class="box"><h3>مديول المخازن</h3>${tbl(['الصلاحية','ما تسمح به'],[[IROLES.requester,'إنشاء طلبات صرف ومتابعتها فقط (يرى المتاح من الأصناف دون تكلفة)'],[IROLES.storekeeper,'في مخازنه فقط: استلام من أوامر التوريد، صرف على طلبات معتمدة، تحويل، إعداد الجرد، إضافة أصناف. لا يرى التكلفة ولا يعتمد'],[IROLES.manager,'كل المخازن: اعتماد طلبات الصرف والجرد، عكس المستندات، الأرصدة الافتتاحية، المخازن والأصناف، فحص السلامة، الصرف المباشر، يرى التكلفة'],[IROLES.viewer,'اطلاع فقط على أرصدة ومستندات مخازنه مع التكلفة، دون أي تعديل']])}<p class="mu">المدير العام (صلاحية المشتريات: مدير النظام) يملك كل شيء في المديولات. يمكن لنفس الشخص أن يحمل صلاحية في أكثر من مديول.</p></div>
+
+<div class="box"><h3>مديول الحسابات</h3>${tbl(['الصلاحية','ما تسمح به'],[[AROLES.accountant,'إعداد القيود اليدوية وسندات القبض والصرف كمسودات، تسجيل سداد الموردين، قراءة التقارير. لا يرحّل قيودًا ولا يعدّل الدليل'],[AROLES.manager,'ترحيل القيود (غير قيوده) أو رفضها وعكسها، دليل الحسابات والفروع، عكس السداد، إقفال الفترات'],[AROLES.viewer,'اطلاع فقط على القيود والتقارير'],['المشتريات: مالية','تسجيل سداد الموردين من أمر التوريد فقط دون الدخول لباقي الحسابات']])}</div>`;
+A.xus=i=>{const x=D.users.find(u=>u.username==i);if(!x)return;if(confirm('حذف المستخدم «'+x.name+'» ('+i+') نهائيًا؟\nلا يمكن التراجع. إن كان له سجلات سابقة فستبقى باسمه، وللإيقاف المؤقت استخدم تعديل ← معطّل.'))run('delUser',{username:i},'تم حذف المستخدم')};
+A.nu=i=>{
+  const x=i?D.users.find(u=>u.username==i):{prof:'',active:true,scope:{}};
+  const ov=x.scope&&Object.keys(x.scope).filter(k=>k!=='deptAll').length>0,hasUp=ov,cur=x.role==='admin'?'@admin':(x.prof||'');
+  const P=(D.profiles||[]).filter(p=>p.active||p.id===cur);
+  mdl(i?'تعديل مستخدم':'مستخدم جديد',
+    (i?`<div><label>اسم المستخدم</label><input name="username" value="${esc(i)}" readonly></div>`:fld('اسم المستخدم (إنجليزي بدون مسافات)','username','','text'))+
+    fld('الاسم الظاهر','name',x.name)+
+    fld('البريد الإلكتروني (لاستعادة كلمة المرور والإشعارات)','email',x.email||'','email')+
+    fld('رقم الهاتف','phone',x.phone||'','tel')+
+    dsl('الإدارة',x.dept||'','','dept',1)+
+    sel('الدور','prof',[['','— اختر دورًا —'],['@admin','مدير النظام (كل الصلاحيات)']].concat(P.map(p=>[p.id,p.name+(p.active?'':' (موقوف)')])),cur,'full')+
+    `<div class="full" id="prinfo" class="mu"></div>`+
+    `<details class="full" id="ucust"${hasUp?' open':''}><summary><b>تخصيص لهذا المستخدم فقط (اختياري)</b> <span class="mu">— نطاق البيانات. للصلاحيات استخدم «مصمم الصلاحيات» على دور.</span></summary>`+
+    `<label class="chk full"><input type="checkbox" id="uda"${x.scope&&x.scope.deptAll?' checked':''}> <b>يرى كل حركات إدارته</b> حتى لو دوره يقصره على حركاته فقط (يلزم أن تكون له إدارة مسجلة)</label>`+
+    `<div class="full" id="scbox"><label class="chk"><input type="checkbox" id="uso"${ov?' checked':''}> تخصيص نطاق بيانات لهذا المستخدم (يحل محل نطاق الدور)</label><div id="usb"${ov?'':' hidden'}>${scopeHtml(x.scope,'usc')}</div></div>`+
+    `</details>`+
+    `<details class="full" id="uaut"${(x.auto||[]).length?' open':''}><summary><b>الاعتماد التلقائي (اختياري)</b> <span class="mu">— ما يسجّله هذا المستخدم من الأنواع المحددة يُعتمد تلقائيًا بمجرد حفظه</span></summary><div class="db" id="uauto">${(D.autoKinds||[]).map(k=>`<label class="chk"><input type="checkbox" data-k="${esc(k.k)}"${(x.auto||[]).includes(k.k)?' checked':''}> ${esc(k.l)}</label>`).join('')}</div><p class="mu">تنبيه: هذا يتجاوز قاعدة «لا يعتمد الشخص مستنده بنفسه» لهذا المستخدم، ويُكمل كل مراحل سلسلة الاعتماد (إن وُجدت). تبقى سارية: إقفال الفترات والموازنات وحدود الاعتماد المسجلة عليه وتحققات كل مستند. كل اعتماد تلقائي يُسجَّل في سجل العمليات، وإن تعذّر يبقى المستند بانتظار الاعتماد ويظهر السبب. لا يسري على مدير النظام.</p></details>`+
+    sel('الحالة','active',[['true','نشط'],['false','معطّل']],String(x.active))+
+    fld(i?'كلمة مرور جديدة (اتركها فارغة بدون تغيير)':'كلمة المرور المؤقتة (6 أحرف على الأقل)','password','','text','full'),
+    ()=>{const o=rd();if(!i){const m=pwBad(o.password);if(m){toast(m,1);return false}}
+      if(!o.prof){toast('اختر دورًا للمستخدم',1);return false}
+      const sc=$('#uso').checked?scopeGet('usc'):{};if($('#uda').checked&&o.prof!=='@admin')sc.deptAll=true;
+      return run('saveUser',{...o,scope:sc,uperm:x.uperm||{tabs:{},deny:{}},auto:o.prof==='@admin'?[]:$$('#uauto input:checked').map(c=>c.dataset.k)},'تم حفظ المستخدم')});
+  const sync0=()=>{};
+  const sync=()=>{sync0();const p=(D.profiles||[]).find(z=>z.id==$('#m [name=prof]').value),b=$('#prinfo'),ad=$('#m [name=prof]').value==='@admin';$('#scbox').hidden=ad;if(b)b.innerHTML=ad?'<span class="mu">مدير النظام يملك كل الصلاحيات على كل المديولات والبيانات.</span>':p?`<span class="mu">${esc(modTxt(p.mods))}${(p.scope&&scopeTxt(p.scope)!=='—')?' — نطاق الدور: '+esc(scopeTxt(p.scope)):''}</span>`:''};
+  $('#m [name=prof]').onchange=sync;$('#uso').onchange=()=>{$('#usb').hidden=!$('#uso').checked};sync();
+};
+V.a_log=()=>head('سجل العمليات')+`<div class="box">${tbl(['الوقت','المستخدم','الإجراء','المرجع','تفاصيل'],D.log.map(l=>[new Date(l.time).toLocaleString('en-GB'),esc(l.user),esc(l.action),esc(l.ref),esc(l.details)]))}</div>`;
+V.a_set=()=>{const c=S();return head('الإعدادات العامة')+`<div class="box"><h3>إعدادات الفروع</h3><div class="db" id="pjs">${sel('إلزام اختيار فرع في طلبات الشراء وأوامر التوريد وطلبات الصرف','projReq',[['false','اختياري (يمكن تركه فارغًا)'],['true','إلزامي']],String(S().projReq))}</div><button class="b" data-a="spj">حفظ</button>
+<p class="mu">الفرع المُكوَّد يظهر كقائمة منسدلة في طلب الشراء وأمر التوريد وطلب الصرف والصرف المباشر، ويُحفظ كوده في المستند، وتُوزَّع عليه القيود المحاسبية تلقائيًا. الفرع الموقوف لا يظهر للاختيار الجديد وتبقى مستنداته. لا يتغير كود الفرع بعد استخدامه.</p></div>
+<div class="box"><h3>الهوية والبيانات</h3><div class="db" id="sf">${fld('اسم الشركة','org',c.org,'text','full')}${fld('الشعار الفرعي','tag',c.tag,'text','full')}${fld('اللون الأساسي','p',c.p,'color')}${fld('اللون الثانوي','a',c.a,'color')}${fld('نسبة الضريبة الافتراضية %','vat',c.vat,'number')}${fld('الرقم الضريبي','taxNo',c.taxNo)}${fld('السجل التجاري','crNo',c.crNo)}${fld('الهاتف','tel',c.tel)}${fld('العنوان','addr',c.addr)}${fld('البريد الإلكتروني','mail',c.mail)}${fld('رابط الشعار (مثال: logo.png إذا رفعته مع الملفات على GitHub)','logo',c.logo,'text','full')}<div class="full"><label>أو ارفع صورة (تُصغَّر تلقائيًا)</label><input type="file" accept="image/*" onchange="lg(this.files[0])"> <button type="button" class="b s o" data-a="lgbg">إزالة الخلفية البيضاء من الشعار الحالي</button> <span class="mu">يُحفظ الشعار PNG شفافًا ويظهر بلا مربع أبيض في الشاشات والطباعة وأيقونة الرابط.</span>${c.logo?'<img src="'+esc(c.logo)+'" height="60" alt="">':''}</div>
+${sel('ربط المشتريات بالمخازن (الاستلام من المخازن فقط)','invLink',[['true','مفعّل (موصى به)'],['false','معطّل: تأكيد استلام يدوي من المشتريات']],String(c.invLink))}${fld('نسبة السماح بالزيادة عند الاستلام %','tol',c.tol,'number')}${fld('نسبة سماح فرق سعر فاتورة المورد % (فوقها يرحّل المدير فقط)','pinvTol',c.pinvTol??0,'number')}</div><button class="b" data-a="sset">حفظ الإعدادات</button></div>`};
+const JEDIMS=[['proj','الفرع'],['cc','مركز التكلفة'],['emp','الموظف'],['sup','المورد']];
+V.a_je=()=>{const on=String(S().jeReq||'').split(',');return head('إعدادات قيود اليومية')+`<div class="box"><h3>الأبعاد التحليلية الإلزامية في القيود اليدوية</h3><p class="mu">كل سطر في القيد اليدوي وسندات القبض والصرف يحمل: الحساب (إلزامي دائمًا) + الأبعاد التالية. علِّم البعد الذي تريد جعله إلزاميًا على كل سطر؛ يفرضه الخادم ولا يمكن حفظ قيد ناقص. القيود التلقائية من المستندات (مشتريات، مبيعات...) لا تتأثر بهذا الإعداد.</p><div class="db" id="jrq">${JEDIMS.map(([k,l])=>`<label class="chk"><input type="checkbox" data-k="${k}"${on.includes(k)?' checked':''}> ${l} إلزامي</label>`).join('')}</div><button class="b" data-a="sjr">حفظ</button></div>`};
+A.sjr=()=>run('saveSettings',{jeReq:[...document.querySelectorAll('#jrq input:checked')].map(x=>x.dataset.k).join(',')},'تم حفظ إعدادات قيود اليومية');
+V.a_sec=()=>{const c=S();return head('الحماية والجلسات')+`<div class="box"><h3>الحماية والجلسات</h3><p class="mu">تسري على كل المستخدمين فورًا، ويفرضها الخادم (وليس المتصفح فقط).</p><div class="db" id="sec">${fld('مدة الجلسة (ساعات) — يُسجَّل الخروج تلقائيًا بعدها','hours',SE().hours,'number')}${fld('الخروج عند الخمول (دقائق، 0 = معطّل)','idle',SE().idle,'number')}${fld('عدد محاولات الدخول الخاطئة قبل القفل','maxFails',SE().maxFails,'number')}${fld('مدة القفل (دقائق)','lockMin',SE().lockMin,'number')}${fld('الحد الأدنى لطول كلمة المرور','pwMin',SE().pwMin,'number')}${sel('كلمة المرور يجب أن تحتوي على','pwMix',[['false','أي أحرف'],['true','حروف وأرقام معًا']],String(!!SE().pwMix))}</div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="b" data-a="ssec">حفظ إعدادات الحماية</button><button class="b r" data-a="srev">إنهاء كل الجلسات الآن</button></div></div>`};
+V.a_bak=()=>head('النسخ الاحتياطي والتصدير')+`<div class="box"><h3>النسخ الاحتياطي على GitHub</h3><p class="mu">البيانات محفوظة أصلًا في Google Sheet. هذا الزر يرسل نسخة JSON (المشتريات والمخازن) إلى مستودع GitHub خاص (بعد ضبط GH_REPO و GH_TOKEN في Apps Script). النسخ اليومي التلقائي يُفعَّل من دالة installDailyBackup.</p><button class="b o" data-a="bk">نسخ احتياطي الآن</button></div>
+<div class="box"><h3>تصدير كل البيانات إلى Excel</h3><p class="mu">ملف واحد بأوراق منفصلة: طلبات الشراء وبنودها، أوامر التوريد وبنودها، الموردون، الأصناف، المخازن، مستندات المخازن وبنودها، دفتر المخزون، دليل الحسابات، الفروع، القيود وسطورها، دفعات الموردين، العملاء وفواتير المبيعات، المستخدمون، وسجل العمليات.</p><button class="b o" data-a="xall">تصدير كل البيانات</button></div>`;
+A.sset=()=>run('saveSettings',rd('#sf'),'تم حفظ الإعدادات');
+A.ssec=async()=>{try{const o=rd('#sec');const j=await api('saveSecurity',o);tok=j.token;tokSet(tok);toast('تم حفظ إعدادات الحماية');await load(1)}catch(e){toast(e.message,1)}};
+A.srev=async()=>{if(!confirm('سيُطلب من كل المستخدمين (ما عداك) تسجيل الدخول من جديد. متابعة؟'))return;try{const j=await api('revokeSessions');tok=j.token;tokSet(tok);toast('تم إنهاء كل الجلسات الأخرى');await load(1)}catch(e){toast(e.message,1)}};
+A.bk=async()=>{try{const j=await api('backup');toast('تم النسخ إلى '+j.path)}catch(e){toast(e.message,1)}};
+// تجهيز الشعار: PNG بخلفية شفافة (تُزال الخلفية البيضاء المتصلة بالحواف) ويُصغَّر حتى يناسب حد التخزين
+function logoPng(im,keepBg){let w=im.naturalWidth||im.width,h=im.naturalHeight||im.height;let k=Math.min(1,256/Math.max(w,h));
+  for(let t=0;t<8;t++){const W=Math.max(16,Math.round(w*k)),H=Math.max(16,Math.round(h*k)),c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d',{willReadFrequently:true});x.drawImage(im,0,0,W,H);
+    if(!keepBg){const d=x.getImageData(0,0,W,H),p=d.data,seen=new Uint8Array(W*H),st=[];const wh=i=>p[i*4+3]>0&&p[i*4]>232&&p[i*4+1]>232&&p[i*4+2]>232;
+      const push=i=>{if(!seen[i]&&wh(i)){seen[i]=1;st.push(i)}};for(let a=0;a<W;a++){push(a);push((H-1)*W+a)}for(let b=0;b<H;b++){push(b*W);push(b*W+W-1)}
+      while(st.length){const i=st.pop(),a=i%W,b=(i-a)/W;p[i*4+3]=0;if(a>0)push(i-1);if(a<W-1)push(i+1);if(b>0)push(i-W);if(b<H-1)push(i+W)}
+      x.putImageData(d,0,0)}
+    const u=c.toDataURL('image/png');if(u.length<=44000)return u;k*=.8}return null}
+function lg(fl){if(!fl)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const u=logoPng(im);if(!u){toast('الصورة كبيرة، استخدم رابط الشعار بدلًا منها',1);return}$('#sf [name=logo]').value=u;toast('تم تجهيز الشعار بخلفية شفافة، اضغط حفظ الإعدادات')};im.src=r.result};r.readAsDataURL(fl)}
+A.lgbg=()=>{const v=($('#sf [name=logo]')||{}).value||S().logo;if(!v){toast('لا يوجد شعار',1);return}const im=new Image();im.crossOrigin='anonymous';im.onload=()=>{try{const u=logoPng(im);if(!u){toast('الصورة كبيرة',1);return}$('#sf [name=logo]').value=u;toast('أُزيلت الخلفية البيضاء، اضغط حفظ الإعدادات')}catch(e){toast('تعذّر معالجة هذا الرابط؛ ارفع الصورة من جهازك',1)}};im.onerror=()=>toast('تعذّر قراءة الشعار',1);im.src=v}
+</script>
+<!-- المديولات: كل واحد في ملف مستقل -->
+<script src="export.js?v=20261107a"></script>
+<script src="mod-procurement.js?v=20261107a"></script>
+<script src="mod-inventory.js?v=20261107a"></script>
+<script src="mod-accounting.js?v=20261107a"></script>
+<script src="mod-extras.js?v=20261107a"></script>
+<script src="mod-finance2.js?v=20261107a"></script>
+<script src="mod-hr.js?v=20261107a"></script>
+<script src="mod-mfg.js?v=20261107a"></script>
+<script src="mod-costing.js?v=20261107a"></script>
+<script src="mod-import.js?v=20261107a"></script>
+<script src="mod-dim.js?v=20261107a"></script>
+<script src="mod-bank.js?v=20261107a"></script>
+<script src="mod-contracts.js?v=20261107a"></script>
+<script src="mod-procure2.js?v=20261107a"></script>
+<script src="mod-approvals.js?v=20261107a"></script>
+<script src="mod-expenses.js?v=20261107a"></script>
+<script src="mod-pinv.js?v=20261107a"></script>
+<script src="mod-sales.js?v=20261107a"></script>
+<script src="mod-catering.js?v=20261107a"></script>
+<script src="mod-svc.js?v=20261107a"></script>
+<script src="mod-nav.js?v=20261107a"></script>
+<script src="mod-profile.js?v=20261107a"></script>
+<script src="mod-tabs.js?v=20261107a"></script>
+<script src="mod-ux.js?v=20261107a"></script>
+<script src="mod-ui.js?v=20261107a"></script>
+<script>
+(async()=>{
+  if(!API_URL){render();return}
+  if(tok){await load(1);if(D.user)return}
+  render();
+  try{const j=await api('pub');Object.assign(D.settings,j.settings);window.__thReal=1;render()}catch(e){toast(e.message,1)}
+})();
+
+/* ---------- قوائم منسدلة قابلة للبحث بجزء من الكلمة ----------
+   أي قائمة فيها أكثر من 6 خيارات تتحول تلقائيًا لحقل بحث (يتجاهل التشكيل والهمزات والتاء المربوطة).
+   القائمة الأصلية (select) تبقى موجودة ومخفية فلا يتأثر باقي الكود. */
+const nz=x=>String(x||'').toLowerCase().replace(/[ً-ٟـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ة/g,'ه').replace(/ى/g,'ي').replace(/\s+/g,' ').trim();
+var ssAnc=null;
+function ssClose(){if(ssOpen){ssOpen.remove();ssOpen=null}ssAnc=null}
+function ssPlace(){if(!ssOpen||!ssAnc)return;const r=ssAnc.getBoundingClientRect();
+  if(r.bottom<0||r.top>innerHeight){ssClose();return}
+  const h=ssOpen.offsetHeight||240,below=innerHeight-r.bottom;
+  ssOpen.style.top=(below<h+8&&r.top>below?Math.max(4,r.top-h-2):Math.min(r.bottom+2,innerHeight-120))+'px';
+  ssOpen.style.right=Math.max(4,innerWidth-r.right)+'px'}
+function ssEnhance(sel){
+  if(sel.dataset.ss||sel.multiple||sel.options.length<=6||sel.closest('.ss'))return;
+  sel.dataset.ss='1';
+  const w=document.createElement('span');w.className='ss';
+  /* داخل جداول البنود يتبع الخانة عرض عمودها (100%) بدل عرض مُقاس لحظة الإضافة، فلا تختلف عروض الصفوف المضافة لاحقًا */
+  if(sel.closest('td,th')){w.style.width=sel.style.width||'100%';w.style.minWidth=sel.style.minWidth||'0'}
+  else{const width=sel.offsetWidth||0;if(width)w.style.width=width+'px';else w.style.minWidth='180px'}
+  const inp=document.createElement('input');inp.type='text';inp.autocomplete='off';inp.placeholder='اكتب للبحث...';inp.disabled=sel.disabled;
+  sel.parentNode.insertBefore(w,sel);w.appendChild(inp);w.appendChild(sel);sel.style.display='none';
+  const lab=()=>{const o=sel.options[sel.selectedIndex];return o?o.textContent.trim():''};
+  const sync=()=>{inp.value=lab();inp.disabled=sel.disabled};
+  const proto=Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype,'value');
+  Object.defineProperty(sel,'value',{get(){return proto.get.call(sel)},set(v){proto.set.call(sel,v);sync()},configurable:true});
+  let act=-1,list=null,items=[];
+  const pick=i=>{const o=items[i];if(!o)return;sel.selectedIndex=o.index;sync();ssClose();sel.dispatchEvent(new Event('input',{bubbles:true}));sel.dispatchEvent(new Event('change',{bubbles:true}))};
+  const show=()=>{
+    const q=nz(inp.dataset.q||'');
+    items=[...sel.options].filter(o=>!o.disabled&&(!q||nz(o.textContent).includes(q)));
+    ssClose();list=document.createElement('div');list.className='ssl';
+    const r=inp.getBoundingClientRect();
+    list.style.top=Math.min(r.bottom+2,innerHeight-120)+'px';list.style.right=Math.max(4,innerWidth-r.right)+'px';list.style.minWidth=Math.max(200,r.width)+'px';
+    list.innerHTML=items.length?items.map((o,i)=>`<div data-i="${i}"${o.index===sel.selectedIndex?' class="on"':''}>${esc(o.textContent.trim())||'—'}</div>`).join(''):'<div class="no">لا توجد نتائج</div>';
+    (inp.closest('dialog[open]')||document.body).appendChild(list);ssOpen=list;ssAnc=inp;ssPlace();
+    act=Math.max(0,items.findIndex(o=>o.index===sel.selectedIndex));
+    const el=list.children[act];if(el&&items.length){el.classList.add('on');el.scrollIntoView({block:'nearest'})}
+    list.onmousedown=e=>{const d=e.target.closest('[data-i]');if(d){e.preventDefault();pick(+d.dataset.i)}};
+  };
+  const mark=()=>{[...list.children].forEach((c,i)=>c.classList.toggle('on',i===act));const c=list.children[act];if(c)c.scrollIntoView({block:'nearest'})};
+  inp.addEventListener('focus',()=>{inp.dataset.q='';inp.select();show()});
+  inp.addEventListener('click',()=>{if(!ssOpen){inp.dataset.q='';show()}});
+  inp.addEventListener('input',()=>{inp.dataset.q=inp.value;show()});
+  inp.addEventListener('keydown',e=>{
+    if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();if(!ssOpen){inp.dataset.q='';show();return}if(items.length){act=(act+(e.key==='ArrowDown'?1:-1)+items.length)%items.length;mark()}}
+    else if(e.key==='Enter'){if(ssOpen){e.preventDefault();e.stopPropagation();pick(act)}}
+    else if(e.key==='Escape'){if(ssOpen){e.stopPropagation();e.preventDefault();ssClose();sync()}}
+    else if(e.key==='Tab'){ssClose();sync()}
+  });
+  inp.addEventListener('blur',()=>setTimeout(()=>{if(document.activeElement!==inp){ssClose();sync()}},120));
+  sel.addEventListener('change',sync);
+  new MutationObserver(sync).observe(sel,{childList:true,subtree:true,attributes:true,attributeFilter:['disabled','selected']});
+  sync();
+}
+const ssScan=(root)=>{(root||document).querySelectorAll&&(root||document).querySelectorAll('select').forEach(ssEnhance)};
+new MutationObserver(m=>{let go=false;m.forEach(x=>x.addedNodes.forEach(n=>{if(n.nodeType===1&&(n.tagName==='SELECT'||n.querySelector('select')))go=true}));if(go)requestAnimationFrame(()=>ssScan())}).observe(document.body,{childList:true,subtree:true});
+addEventListener('scroll',e=>{if(ssOpen&&!ssOpen.contains(e.target))ssPlace()},true);addEventListener('resize',ssPlace);
+
+/* شبكة بنود المستندات: عرض كل عمود يُحدَّد مرة واحدة من رأس الجدول وأول صف (البيان أعرض، الأرقام مدمجة)
+   فتتطابق الصفوف المضافة لاحقًا مع ما فوقها ولا يتضخم عمود بسبب محتوى صف بعينه */
+const LG_NUM=/(الكمية|الكميه|السعر|القيمة|المبلغ|الإجمالي|الاجمالي|الدقائق|هالك|%|خصم|ضريبة|الصافي|مدين|دائن|الرصيد|التكلفة|العدد|المتبقي)/;
+const LG_DESC=/(البند|البيان|الصنف|الخامة|العملية|المنتج|المكوّن|المكون|الخدمة|الباقة)/;
+function lgBuild(t){
+  if(t.dataset.lg||t.dataset.nolg!==undefined||t.id==='jl'||t.closest('.pm')||!t.tHead||!t.tHead.rows[0])return;
+  const body=t.tBodies[0],first=body&&body.rows[0];
+  if(!(first&&first.querySelector('input,select,textarea'))&&t.dataset.lines===undefined)return;
+  const hs=[...t.tHead.rows[0].cells];
+  const roles=hs.map((h,i)=>{
+    const c=first&&first.cells[i],txt=h.textContent.trim();
+    const sel=c&&c.querySelector('select'),inp=c&&c.querySelector('input:not([type=checkbox]):not([type=radio])'),btn=c&&c.querySelector('button');
+    if(!txt&&(btn||!c||!c.textContent.trim()))return {r:'btn',w:48};
+    if(inp&&inp.type==='number')return {r:'num',w:104};
+    if(inp&&inp.type==='date')return {r:'date',w:140};
+    if(sel){const n=sel.options?sel.options.length:9;return {r:'sel',w:(n<=4&&/(النوع|الحالة|طريقة|نوع)/.test(txt))?124:210}}
+    if(inp)return {r:'txt',w:/(الوحدة|الكود|رقم|المرجع)/.test(txt)?100:190};
+    if(c&&!c.querySelector('*')&&!c.textContent.trim().match(/[^\d.,\s%-]/)&&c.textContent.trim().length<14)return {r:'static',w:104};
+    if(c&&c.textContent.trim().length>=14)return {r:'static',w:190};
+    if(!c)return LG_NUM.test(txt)?{r:'num',w:104}:LG_DESC.test(txt)?{r:'txt',w:190}:{r:'sel',w:190};
+    return {r:'static',w:104};
+  });
+  let d=roles.findIndex((x,i)=>(x.r==='sel'||x.r==='txt')&&LG_DESC.test(hs[i].textContent));
+  if(d<0)d=roles.findIndex(x=>(x.r==='sel'&&x.w>124)||x.r==='txt');
+  if(d<0)d=roles.findIndex(x=>x.r==='sel'||x.r==='txt');
+  const cg=document.createElement('colgroup');let fixed=0;
+  roles.forEach((x,i)=>{const c=document.createElement('col');if(i===d)c.style.width='auto';else{c.style.width=x.w+'px';fixed+=x.w}cg.appendChild(c)});
+  [...t.querySelectorAll('colgroup')].forEach(z=>z.remove());
+  t.insertBefore(cg,t.firstChild);
+  t.dataset.lg='1';t.style.minWidth=(fixed+(d>=0?260:0))+'px';
+  t._lg=roles;lgRows(t);
+}
+/* الصفوف المضافة لاحقًا تأخذ نفس تنسيق الخلايا الرقمية الثابتة (القيمة / الإجمالي) */
+function lgRows(t){const R=t._lg;if(!R||!t.tBodies[0])return;[...t.tBodies[0].rows].forEach(r=>{if(r.dataset.lgd)return;r.dataset.lgd='1';R.forEach((x,i)=>{const c=r.cells[i];if(c&&x.r==='static'&&x.w<=104)c.classList.add('lgs')})})}
+const lgScan=()=>{const m=document.getElementById('mb');if(!m)return;m.querySelectorAll('table:not([data-lg])').forEach(lgBuild);m.querySelectorAll('table[data-lg]').forEach(lgRows)};
+{const mb=document.getElementById('mb');if(mb)new MutationObserver(()=>{requestAnimationFrame(lgScan)}).observe(mb,{childList:true,subtree:true})}
+
+/* ---------- بث التغيير الفوري (اختياري): Firebase Realtime Database ----------
+   Apps Script لا يدفع إشعارات للمتصفحات، لذلك نستخدم قناة إشعار خفيفة خارجه: كل متصفح ينفّذ عملية كتابة يرسل «علامة تغيير»
+   إلى مسار v في قاعدة Firebase، وكل المتصفحات الأخرى (في أي مكان) تستمع إليه عبر EventSource فتتحدث خلال أقل من ثانية.
+   العلامة لا تحمل أي بيانات، وكل متصفح يتحقق من رقم النسخة عبر ping قبل التحديث. بدون ضبط FB يعمل الفحص الدوري كما كان. */
+const FBU=String(CFG.FB||'').trim().replace(/\/+$/,'');
+let fbLast='',fbSeen=null,fbOpen=false,fbES=null;
+function fbNotify(){
+  if(!FBU)return;
+  fbLast=Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  try{fetch(FBU+'/v.json',{method:'PUT',body:JSON.stringify(fbLast),keepalive:true}).catch(()=>{})}catch(e){}
+}
+function fbStart(){
+  if(!FBU||!window.EventSource||fbES)return;
+  fbES=new EventSource(FBU+'/v.json');
+  fbES.addEventListener('put',e=>{
+    try{
+      const d=JSON.parse(e.data);if(d.path!=='/')return;
+      const v=d.data;
+      if(fbSeen===null){fbSeen=v;return}
+      if(v===fbSeen||v===fbLast){fbSeen=v;return}
+      fbSeen=v;if(D.user)tick();
+    }catch(x){}
+  });
+  fbES.onopen=()=>{if(fbOpen&&D.user)tick();fbOpen=true};
+}
+/* ---------- المزامنة الفورية بين المستخدمين ----------
+   فحص خفيف (ping) كل بضع ثوانٍ؛ إن تغيّر رقم نسخة البيانات نحمّل أحدث البيانات فورًا.
+   يتوقف مؤقتًا أثناء التحرير (نافذة مفتوحة أو حقل قيد الكتابة) ويُستأنف لحظة الانتهاء. */
+let lastAct=Date.now(),pingBusy=false,pendingRemote=false;
+['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,()=>{lastAct=Date.now()},{passive:true}));
+const editing=()=>{if(dlg.open)return true;const a=document.activeElement;return !!(a&&a.closest&&a.closest('#v')&&/^(INPUT|SELECT|TEXTAREA)$/.test(a.tagName)&&(a.type!=='search')&&a.getAttribute('placeholder')!=='بحث...')};
+async function tick(){
+  if(!D.user||document.hidden||pingBusy||nb>0)return;
+  pingBusy=true;
+  try{
+    const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'ping',token:tok})});
+    const j=await r.json();
+    if(!j.ok){if(j.auth)out(true);return}
+    pendingRemote=!!(D.v&&j.v!==D.v);
+    if(pendingRemote&&!editing()&&!$('#sf')){await load(0);pendingRemote=false}
+  }catch(e){/* انقطاع مؤقت: نحاول في الدورة التالية */}
+  finally{pingBusy=false}
+}
+// 3 ثوانٍ أثناء النشاط، 15 ثانية بعد دقيقتين خمول، 60 ثانية بعد 10 دقائق (يوفّر حصة Apps Script اليومية)
+(function loop(){const idle=Date.now()-lastAct,d=pendingRemote?2000:(FBU&&fbOpen)?(idle<12e4?20000:60000):(idle<12e4?3000:idle<6e5?15000:60000);setTimeout(async()=>{await tick();loop()},d)})();
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&D.user)tick()});
+</script>
+</body>
+</html>
